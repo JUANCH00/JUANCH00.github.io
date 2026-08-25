@@ -93,6 +93,7 @@ To replace the CV, overwrite `public/cv/juan-esteban-moreno-cv.pdf`.
 
 Every push to `main` runs the full gate and, if it passes, publishes to GitHub
 Pages. Nothing is built or uploaded by hand and `dist/` is never committed.
+Setup steps and the custom-domain path are in [`docs/DEPLOY.md`](docs/DEPLOY.md).
 
 ## License
 
