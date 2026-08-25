@@ -1,0 +1,23 @@
+.halo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: var(--halo-size);
+  height: var(--halo-size);
+  margin: calc(var(--halo-size) / -2) 0 0 calc(var(--halo-size) / -2);
+  border-radius: 50%;
+  background: var(--color-accent);
+  pointer-events: none;
+  z-index: var(--z-cursor);
+  mix-blend-mode: difference;
+  transform: translate3d(-100px, -100px, 0);
+  transition:
+    width var(--duration-fast),
+    height var(--duration-fast),
+    margin var(--duration-fast);
+  --halo-size: 12px;
+}
+
+.active {
+  --halo-size: 46px;
+}

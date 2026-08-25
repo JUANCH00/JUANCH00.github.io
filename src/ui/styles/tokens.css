@@ -1,0 +1,86 @@
+/**
+ * Design tokens — the single vocabulary for colour, type, space and motion.
+ *
+ * Components never hard-code a hex value or a pixel ramp; they reference a
+ * token. Retheming the whole site is editing this file, and a reviewer can see
+ * the entire visual system in one screen.
+ */
+:root {
+  /* Surfaces, darkest to lightest */
+  --color-bg: #0d0c0b;
+  --color-surface: #131110;
+  --color-surface-raised: #171514;
+  --color-surface-hover: #141210;
+
+  /* Text, strongest to faintest */
+  --color-text: #f2efe6;
+  --color-text-soft: #c9c3b8;
+  --color-text-muted: #9c958a;
+  --color-text-dim: #7a746a;
+  --color-text-faint: #5c564e;
+
+  /* One accent, used for exactly one job: "look here". */
+  --color-accent: #ff3d00;
+  --color-accent-hover: #ff7a4d;
+  --color-accent-wash: rgb(255 61 0 / 16%);
+  --color-accent-line: rgb(255 61 0 / 42%);
+
+  --color-line: #262320;
+  --color-line-strong: #322e29;
+  --color-line-focus: #3a352f;
+
+  /* Type */
+  --font-display: 'Anton', 'Arial Narrow', Impact, sans-serif;
+  --font-sans: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'SF Mono', monospace;
+
+  --text-micro: 0.625rem; /* 10px  — labels */
+  --text-mono: 0.6875rem; /* 11px  — mono UI */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.0625rem;
+  --text-xl: 1.1875rem;
+
+  --tracking-label: 0.12em;
+  --tracking-nav: 0.08em;
+
+  /* Fluid display sizes: one clamp per role, never ad hoc in a component */
+  --display-hero: clamp(3.5rem, 15.5vw, 14.375rem);
+  --display-section: clamp(2.5rem, 10vw, 9.375rem);
+  --display-project: clamp(1.875rem, 5.4vw, 4.625rem);
+  --display-card: 1.875rem;
+
+  /* Space — a 4px base scale */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.375rem;
+  --space-6: 1.625rem;
+  --space-7: 2rem;
+  --space-8: 2.75rem;
+  --space-9: 3.5rem;
+  --space-10: 5rem;
+
+  --page-gutter: clamp(1.125rem, 4vw, 1.625rem);
+  --max-measure: 41.25rem;
+
+  /* Motion */
+  --ease-out-expo: cubic-bezier(0.16, 0.85, 0.2, 1);
+  --ease-spring: cubic-bezier(0.3, 1.4, 0.4, 1);
+  --duration-fast: 180ms;
+  --duration-base: 300ms;
+  --duration-slow: 700ms;
+
+  --z-cursor: 99;
+  --z-nav: 40;
+}
+
+/* Honour the OS setting: everything below animates or it does not, in one place. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 1ms;
+    --duration-base: 1ms;
+    --duration-slow: 1ms;
+  }
+}

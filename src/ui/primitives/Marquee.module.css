@@ -1,0 +1,42 @@
+.marquee {
+  margin-top: var(--space-9);
+  padding: var(--space-4) 0;
+  border-top: 1px solid var(--color-line);
+  border-bottom: 1px solid var(--color-line);
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.track {
+  display: inline-flex;
+  gap: var(--space-8);
+  font-family: var(--font-display);
+  font-size: clamp(1.625rem, 4vw, 3.25rem);
+  text-transform: uppercase;
+  animation: slide var(--marquee-duration, 26s) linear infinite;
+  will-change: transform;
+}
+
+.separator {
+  color: var(--color-accent);
+}
+
+@keyframes slide {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* Reduced motion: park the track and let it scroll like ordinary content. */
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+
+  .marquee {
+    overflow-x: auto;
+  }
+}
