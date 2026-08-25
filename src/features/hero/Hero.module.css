@@ -1,0 +1,115 @@
+.hero {
+  padding: 7.5rem var(--page-gutter) 0;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-4) var(--space-5);
+  padding-bottom: var(--space-5);
+  border-bottom: 1px solid var(--color-line);
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.status {
+  color: var(--color-accent);
+}
+
+.name {
+  margin-top: var(--space-8);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-hero);
+  line-height: 0.82;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+}
+
+.line {
+  display: block;
+  overflow: hidden;
+}
+
+.line > span {
+  display: block;
+  animation: rise 0.95s var(--ease-out-expo) both;
+  animation-delay: var(--line-delay);
+}
+
+@keyframes rise {
+  from {
+    transform: translateY(115%) rotate(6deg);
+  }
+  to {
+    transform: translateY(0) rotate(0);
+  }
+}
+
+.intro {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(16.25rem, 1fr));
+  gap: var(--space-8);
+  margin-top: var(--space-9);
+  padding-top: var(--space-6);
+  border-top: 1px solid var(--color-line);
+}
+
+.lead {
+  max-width: 28.75rem;
+  font-size: var(--text-lg);
+}
+
+.leadAccent {
+  color: var(--color-accent);
+}
+
+.kicker {
+  max-width: 25rem;
+  font-size: var(--text-sm);
+  line-height: 1.7;
+  color: var(--color-text-muted);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-items: flex-start;
+}
+
+.action {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  padding: var(--space-4) var(--space-5);
+  border: 1px solid var(--color-line-focus);
+  color: var(--color-text);
+  transition:
+    background var(--duration-fast) ease,
+    color var(--duration-fast) ease;
+}
+
+.action:hover {
+  background: var(--color-surface-hover);
+  color: var(--color-text);
+}
+
+.primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 500;
+}
+
+.primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-bg);
+}

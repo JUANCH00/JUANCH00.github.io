@@ -1,0 +1,21 @@
+.footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-3);
+  margin: var(--space-9) 0 0;
+  padding: 0 var(--page-gutter) var(--space-6);
+  font-family: var(--font-mono);
+  font-size: var(--text-micro);
+  letter-spacing: var(--tracking-nav);
+  text-transform: uppercase;
+  color: var(--color-text-faint);
+}
+
+.footer a {
+  color: var(--color-text-faint);
+}
+
+.footer a:hover {
+  color: var(--color-accent);
+}

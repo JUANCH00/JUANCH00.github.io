@@ -1,0 +1,5 @@
+/* The list owns the closing rule so each row only draws its own top border —
+   wrapping rows in reveal containers makes `:last-of-type` unreliable. */
+.list {
+  border-bottom: 1px solid var(--color-line);
+}

@@ -1,0 +1,75 @@
+.list {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--color-line);
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-4);
+  padding: var(--space-7) 0;
+  border-top: 1px solid var(--color-line);
+}
+
+@media (width >= 48rem) {
+  .entry {
+    grid-template-columns: 14rem minmax(0, 1fr);
+    gap: var(--space-7);
+  }
+}
+
+.period {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text-dim);
+}
+
+.location {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--color-text-faint);
+}
+
+.org {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.75rem;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
+.role {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--color-accent);
+}
+
+.highlights {
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: var(--space-3);
+  max-width: var(--max-measure);
+  font-size: 0.90625rem;
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}
+
+.highlights li {
+  padding-left: var(--space-5);
+  position: relative;
+}
+
+.highlights li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+}

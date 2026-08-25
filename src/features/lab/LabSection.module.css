@@ -1,0 +1,40 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(22.5rem, 100%), 1fr));
+  gap: var(--space-5);
+}
+
+.card {
+  border: 1px solid var(--color-line);
+  padding: var(--space-6) var(--space-5) var(--space-7);
+}
+
+.head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-3);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-card);
+  text-transform: uppercase;
+}
+
+.badge {
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.blurb {
+  margin: var(--space-3) 0 var(--space-5);
+  max-width: 44ch;
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-text-muted);
+}

@@ -1,0 +1,69 @@
+.stage {
+  position: relative;
+  height: 18.75rem;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  overflow: hidden;
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+  margin-top: var(--space-4);
+}
+
+.nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.node,
+.restore {
+  font-family: var(--font-mono);
+  font-size: var(--text-mono);
+  padding: var(--space-2) var(--space-4);
+  border: 1px solid var(--color-line-focus);
+  background: none;
+  color: var(--color-text);
+  cursor: pointer;
+  transition:
+    background var(--duration-fast),
+    border-color var(--duration-fast),
+    color var(--duration-fast);
+}
+
+.node:hover,
+.restore:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.node[aria-pressed='true'] {
+  border-color: var(--color-line);
+  color: var(--color-text-faint);
+  text-decoration: line-through;
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-4) 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.65625rem;
+  line-height: 1.5;
+  color: var(--color-text-dim);
+  min-height: 2.75rem;
+}
