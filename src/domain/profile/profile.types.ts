@@ -16,8 +16,6 @@ export interface Identity {
   readonly displayLines: readonly string[]
   readonly title: string
   readonly location: string
-  /** IANA time zone, used to render the local clock. */
-  readonly timeZone: string
 }
 
 export interface Project {

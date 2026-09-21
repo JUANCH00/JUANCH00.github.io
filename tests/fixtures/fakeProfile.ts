@@ -12,7 +12,6 @@ export const fakeProfile: Profile = {
     displayLines: ['Test', 'Person'],
     title: 'Test title',
     location: 'Testville',
-    timeZone: 'UTC',
   },
   summary: ['A short lead sentence for the hero.'],
   stackTicker: ['Alpha', 'Beta'],

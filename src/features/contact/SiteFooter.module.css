@@ -1,10 +1,11 @@
 .footer {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   justify-content: space-between;
-  gap: var(--space-3);
-  margin: var(--space-9) 0 0;
-  padding-bottom: var(--space-6);
+  gap: var(--space-2) var(--space-5);
+  margin-top: var(--space-9);
+  padding-bottom: var(--space-5);
   font-family: var(--font-mono);
   font-size: var(--text-label);
   letter-spacing: var(--tracking-button);
@@ -13,9 +14,16 @@
 }
 
 .footer a {
-  color: var(--color-text-dim);
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  color: var(--color-text-soft);
+  text-decoration: underline;
+  text-decoration-color: var(--color-border-control);
+  text-underline-offset: 4px;
+  transition: color var(--duration-fast);
 }
 
 .footer a:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }

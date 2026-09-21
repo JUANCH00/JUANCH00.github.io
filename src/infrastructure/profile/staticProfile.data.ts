@@ -20,7 +20,6 @@ export const staticProfile: Profile = {
     displayLines: ['Juan Esteban', 'Moreno'],
     title: 'Systems Engineering student · ML and backend',
     location: 'Tunja, Colombia',
-    timeZone: 'America/Bogota',
   },
 
   summary: [
@@ -150,7 +149,7 @@ export const staticProfile: Profile = {
     {
       id: 'social',
       kind: 'social',
-      label: 'Social',
+      label: 'Elsewhere',
       links: [
         { id: 'github', text: 'GitHub', href: GITHUB_URL },
         { id: 'linkedin', text: 'LinkedIn', href: LINKEDIN_URL },

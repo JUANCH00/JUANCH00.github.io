@@ -1,6 +1,6 @@
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App } from '@app/App'
 import { SECTIONS } from '@app/navigation'
 import { FakeProfileRepository, fakeProfile } from './fixtures/fakeProfile'
@@ -73,6 +73,29 @@ describe('the portfolio page', () => {
     await user.click(within(goal).getByRole('button', { name: /Shoot top left/ }))
 
     expect(await screen.findByText(/saved|goal —/)).toBeInTheDocument()
+  })
+
+  it('offers the email as a link and copies it on request', async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    expect(screen.getByRole('link', { name: fakeProfile.email })).toHaveAttribute(
+      'href',
+      `mailto:${fakeProfile.email}`,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Copy email address' }))
+    expect(screen.getByRole('button', { name: 'Copied email address' })).toBeInTheDocument()
+    await expect(navigator.clipboard.readText()).resolves.toBe(fakeProfile.email)
+  })
+
+  it('says so when the browser blocks the clipboard', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('denied'))
+
+    await user.click(screen.getByRole('button', { name: 'Copy email address' }))
+    expect(screen.getByText(/Copy blocked by the browser/)).toBeInTheDocument()
   })
 
   it('exposes one labelled landmark per section', () => {
