@@ -16,4 +16,7 @@ export const SECTIONS = [
 
 export type SectionId = (typeof SECTIONS)[number]['id']
 
+/** Stable for the life of the page, so observers keyed on it are built once. */
+export const SECTION_IDS: readonly SectionId[] = SECTIONS.map((section) => section.id)
+
 export const MAIN_CONTENT_ID = 'top'

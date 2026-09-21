@@ -1,49 +1,75 @@
+/* A solid-enough scrim with a blur, not a blend mode: the bar keeps one colour
+   over every section instead of inverting as blocks scroll underneath it. */
 .nav {
   position: fixed;
   inset: 0 0 auto;
   z-index: var(--z-nav);
+  background: var(--color-scrim);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--color-line);
+}
+
+.inner {
   display: flex;
-  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
-  gap: var(--space-2) var(--space-5);
-  padding: var(--space-5) var(--page-gutter);
+  gap: var(--space-5);
+  height: var(--nav-height);
+}
+
+.brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  min-height: var(--target-min);
   font-family: var(--font-mono);
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-button);
-  text-transform: uppercase;
-  mix-blend-mode: difference;
+  font-weight: 500;
+  letter-spacing: var(--tracking-label);
   color: var(--color-text);
 }
 
-.brand,
-.links a {
-  color: var(--color-text);
-}
-
-.links a:hover {
-  color: var(--color-accent-hover);
-}
-
+/* One line at every width: on a phone the links scroll sideways instead of
+   wrapping into a second row of tiny targets. */
 .links {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-5);
+  gap: var(--space-1);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+  scrollbar-width: none;
 }
 
-.clock {
-  font-variant-numeric: tabular-nums;
+.links::-webkit-scrollbar {
+  display: none;
 }
 
-@media (width <= 51.25rem) {
-  .clock {
-    display: none;
-  }
+.link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  padding: 0 var(--space-3);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: var(--color-text-soft);
+  transition: color var(--duration-fast);
 }
 
-@media (width <= 35rem) {
-  .links {
-    gap: var(--space-3);
-    font-size: var(--text-label);
-  }
+.link:hover,
+.link[aria-current='true'] {
+  color: var(--color-text);
+  box-shadow: inset 0 -2px 0 var(--color-accent);
+}
+
+/* The scroll container clips anything outside it, so the ring goes inside. */
+.link:focus-visible,
+.brand:focus-visible {
+  outline-offset: -2px;
 }
