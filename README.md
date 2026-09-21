@@ -25,8 +25,12 @@ how it is put together.
 - **Content as typed data.** Every word on the page is a `Profile` object behind
   a repository interface, with invariant tests over it.
 - **Accessible by construction.** Landmarks, a skip link, keyboard control for
-  the canvas widget, announced game outcomes, and full
-  `prefers-reduced-motion` support.
+  the canvas widget, announced game outcomes, 44px targets, nothing under
+  12px or 4.5:1, and full `prefers-reduced-motion` support.
+- **A design system with an audit behind it.** The look answers to a written
+  audit of 20 findings in [`design/`](design/jem-design-system-v2), and the
+  rules a machine can check (no em dashes, a 20-word hero lead, nav order equal
+  to page order) are tests.
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the layer map and
 [`docs/adr/`](docs/adr) for the decision records.
@@ -75,8 +79,9 @@ src/
   ui/              Design system: tokens, primitives, generic hooks.
   features/        One folder per page section.
   app/             Composition root, section map, error boundary.
-tests/             Integration + architecture tests, fixtures.
+tests/             Integration, copy-rule and architecture tests, fixtures.
 docs/              Architecture notes and ADRs.
+design/            Design system v2: audit, tokens, component specs, screenshots.
 public/            CV, favicon, social image, robots, sitemap.
 ```
 

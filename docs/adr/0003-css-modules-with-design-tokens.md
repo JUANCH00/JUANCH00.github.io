@@ -21,7 +21,7 @@ CSS Modules, one file per component, over a single token file
 ## Consequences
 
 - Zero runtime styling cost and no extra dependency; the whole stylesheet is
-  17 KB (4 KB gzipped).
+  20 KB (4.4 KB gzipped).
 - Class names are locally scoped, so no BEM discipline is required and no
   component can leak a style into another.
 - Every colour, size, space step and easing curve is declared once. Retheming is
