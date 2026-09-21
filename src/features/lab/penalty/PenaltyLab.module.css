@@ -6,9 +6,11 @@
   overflow: hidden;
 }
 
+/* Insets come from goalGeometry.ts via custom properties, so the drawing and
+   the maths that places the ball can never disagree. */
 .frame {
   position: absolute;
-  inset: 1rem 8% 4.625rem;
+  inset: var(--inset-top) var(--inset-side) var(--ground);
   border: 3px solid var(--color-text);
   border-bottom: 0;
   background-image:
@@ -20,45 +22,58 @@
 .ground {
   position: absolute;
   inset: auto 0 0;
-  height: 4.625rem;
+  height: var(--ground);
   background: var(--color-surface-raised);
   border-top: 1px solid var(--color-line);
+}
+
+/* A layer is the size of the pitch, so percentages in its translate() are
+   percentages of the pitch: the moving piece is anchored at the layer's
+   bottom-left corner and the layer carries it to (--left, --bottom). */
+.layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translate(var(--left), calc(var(--bottom) * -1));
+}
+
+.keeperLayer {
+  z-index: 2;
+  transition: transform var(--duration-base) var(--ease-spring);
+}
+
+.ballLayer {
+  z-index: 3;
+  transition: transform 420ms var(--ease-out-expo);
 }
 
 .keeper,
 .ball {
   position: absolute;
-  transform: translateX(-50%);
-  left: var(--left);
-  bottom: var(--bottom);
+  bottom: 0;
+  left: 0;
 }
 
 .keeper {
   width: 3.375rem;
   height: 6rem;
   background: var(--color-accent);
-  z-index: 2;
-  transition:
-    left var(--duration-base) var(--ease-spring),
-    bottom var(--duration-base) var(--ease-spring),
-    rotate var(--duration-base) var(--ease-spring);
-  rotate: var(--tilt, 0deg);
+  transform: translateX(-50%) rotate(var(--tilt, 0deg));
+  transform-origin: 50% 100%;
+  transition: transform var(--duration-base) var(--ease-spring);
 }
 
 .ball {
   width: 1.25rem;
   height: 1.25rem;
-  border-radius: 50%;
+  border-radius: var(--radius-full);
   background: var(--color-text);
-  z-index: 3;
-  transition:
-    left 420ms var(--ease-out-expo),
-    bottom 420ms var(--ease-out-expo);
+  transform: translateX(-50%);
 }
 
 .grid {
   position: absolute;
-  inset: 1rem 8% 4.625rem;
+  inset: var(--inset-top) var(--inset-side) var(--ground);
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(2, 1fr);
@@ -94,9 +109,11 @@
   margin-top: var(--space-4);
   font-family: var(--font-mono);
   font-size: var(--text-label);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
+  color: var(--color-text-dim);
 }
 
 .score {
-  color: var(--color-text-dim);
   font-variant-numeric: tabular-nums;
 }

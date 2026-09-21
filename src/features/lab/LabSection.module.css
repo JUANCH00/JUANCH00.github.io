@@ -1,12 +1,20 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(22.5rem, 100%), 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: var(--space-5);
 }
 
+@media (width >= 45rem) {
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* The only cards on the page: each holds a stage with state of its own. */
 .card {
-  border: 1px solid var(--color-line);
-  padding: var(--space-6) var(--space-5) var(--space-7);
+  padding: var(--space-5);
+  background: var(--color-surface-raised);
+  border: 1px solid var(--color-line-strong);
 }
 
 .head {
@@ -21,19 +29,21 @@
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--display-card);
+  line-height: 1;
   text-transform: uppercase;
+  color: var(--color-text);
 }
 
 .badge {
   font-family: var(--font-mono);
   font-size: var(--text-label);
-  text-transform: uppercase;
-  color: var(--color-accent);
+  letter-spacing: 0.02em;
+  color: var(--color-text-dim);
 }
 
 .blurb {
-  margin: var(--space-3) 0 var(--space-5);
   max-width: 44ch;
+  margin: var(--space-3) 0 var(--space-5);
   font-size: var(--text-sm);
   line-height: 1.65;
   color: var(--color-text-muted);

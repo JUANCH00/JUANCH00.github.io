@@ -3,7 +3,7 @@ import { useClusterSimulation } from '@application/lab'
 import { usePrefersReducedMotion } from '@ui/hooks/useMediaQuery'
 import { Button } from '@ui/primitives'
 import { layoutCluster, nodeAt, type ClusterLayout } from './clusterLayout'
-import { renderCluster, type Packet } from './clusterRenderer'
+import { readPalette, renderCluster, type Packet } from './clusterRenderer'
 import { clusterEventText } from './clusterMessages'
 import styles from './ClusterLab.module.css'
 
@@ -38,6 +38,7 @@ export const ClusterLab = ({ size }: { readonly size: number }) => {
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
 
+    const palette = readPalette(canvas)
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     let layout: ClusterLayout = layoutCluster(0, 0, size)
     let width = 0
@@ -74,6 +75,7 @@ export const ClusterLab = ({ size }: { readonly size: number }) => {
       }
 
       renderCluster(ctx, width, height, {
+        palette,
         layout,
         offline: state.offline,
         time,

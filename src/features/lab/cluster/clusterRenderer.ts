@@ -1,6 +1,62 @@
 import type { ClusterLayout, NodeCircle } from './clusterLayout'
 
+/** Colours and type for the canvas, resolved from the design tokens. */
+export interface ClusterPalette {
+  readonly accent: string
+  readonly accentLine: string
+  readonly accentHalo: string
+  readonly text: string
+  readonly onAccent: string
+  readonly balancerFill: string
+  readonly deadFill: string
+  readonly deadLine: string
+  readonly deadText: string
+  readonly caption: string
+  readonly fontMono: string
+}
+
+const FALLBACK: ClusterPalette = {
+  accent: '#ff3d00',
+  accentLine: 'rgb(255 61 0 / 42%)',
+  accentHalo: 'rgb(255 61 0 / 16%)',
+  text: '#f2efe6',
+  onAccent: '#0d0c0b',
+  balancerFill: '#1a1816',
+  deadFill: '#131110',
+  deadLine: '#5c564e',
+  deadText: '#5c564e',
+  caption: '#8f887d',
+  fontMono: 'monospace',
+}
+
+/**
+ * Read the palette from the CSS custom properties in scope for `element`.
+ *
+ * A canvas cannot use `var()`, so without this the renderer would carry its
+ * own copy of every hex value and drift from tokens.css the first time a token
+ * changed. Offline nodes use text-faint: the token reserved for disabled.
+ */
+export const readPalette = (element: Element): ClusterPalette => {
+  const style = getComputedStyle(element)
+  const token = (name: string, fallback: string) => style.getPropertyValue(name).trim() || fallback
+
+  return {
+    accent: token('--color-accent', FALLBACK.accent),
+    accentLine: token('--color-accent-line', FALLBACK.accentLine),
+    accentHalo: token('--color-accent-wash', FALLBACK.accentHalo),
+    text: token('--color-text', FALLBACK.text),
+    onAccent: token('--color-on-accent', FALLBACK.onAccent),
+    balancerFill: token('--color-surface-raised', FALLBACK.balancerFill),
+    deadFill: token('--color-surface', FALLBACK.deadFill),
+    deadLine: token('--color-text-faint', FALLBACK.deadLine),
+    deadText: token('--color-text-faint', FALLBACK.deadText),
+    caption: token('--color-text-dim', FALLBACK.caption),
+    fontMono: token('--font-mono', FALLBACK.fontMono),
+  }
+}
+
 export interface RenderOptions {
+  readonly palette: ClusterPalette
   readonly layout: ClusterLayout
   readonly offline: readonly number[]
   /** Milliseconds since start, used for the idle pulse. Frozen when animation is off. */
@@ -15,23 +71,9 @@ export interface Packet {
   readonly progress: number
 }
 
-const COLORS = {
-  accent: '#ff3d00',
-  accentLine: 'rgba(255,61,0,.42)',
-  accentHalo: 'rgba(255,61,0,.2)',
-  text: '#f2efe6',
-  bg: '#0d0c0b',
-  deadFill: '#141210',
-  deadLine: '#3a352f',
-  deadText: '#5c564e',
-  balancerFill: '#1c1917',
-  caption: '#5c564e',
-} as const
-
-const LABEL_FONT = '500 10px "IBM Plex Mono", monospace'
-
 const drawLink = (
   ctx: CanvasRenderingContext2D,
+  palette: ClusterPalette,
   from: NodeCircle,
   to: NodeCircle,
   dead: boolean,
@@ -40,7 +82,7 @@ const drawLink = (
   ctx.moveTo(from.x + from.radius, from.y)
   ctx.lineTo(to.x - to.radius, to.y)
   ctx.setLineDash(dead ? [3, 5] : [])
-  ctx.strokeStyle = dead ? COLORS.deadLine : COLORS.accentLine
+  ctx.strokeStyle = dead ? palette.deadLine : palette.accentLine
   ctx.lineWidth = 1
   ctx.stroke()
   ctx.setLineDash([])
@@ -73,13 +115,15 @@ export const renderCluster = (
   ctx: CanvasRenderingContext2D,
   width: number,
   height: number,
-  { layout, offline, time, animated, packets }: RenderOptions,
+  { palette, layout, offline, time, animated, packets }: RenderOptions,
 ): void => {
+  // Nothing on the canvas is drawn below 12px, same as the rest of the page.
+  const labelFont = `500 12px ${palette.fontMono}`
   ctx.clearRect(0, 0, width, height)
   const isDown = (id: number) => offline.includes(id)
 
   for (const node of layout.nodes) {
-    drawLink(ctx, layout.balancer, node, isDown(node.id))
+    drawLink(ctx, palette, layout.balancer, node, isDown(node.id))
   }
 
   for (const packet of packets) {
@@ -93,13 +137,13 @@ export const renderCluster = (
       0,
       Math.PI * 2,
     )
-    ctx.fillStyle = COLORS.accent
+    ctx.fillStyle = palette.accent
     ctx.fill()
   }
 
-  drawDisc(ctx, layout.balancer, layout.balancer.radius, COLORS.balancerFill, COLORS.text)
-  ctx.fillStyle = COLORS.text
-  ctx.font = LABEL_FONT
+  drawDisc(ctx, layout.balancer, layout.balancer.radius, palette.balancerFill, palette.text)
+  ctx.fillStyle = palette.text
+  ctx.font = labelFont
   ctx.textAlign = 'center'
   ctx.textBaseline = 'middle'
   ctx.fillText('LB', layout.balancer.x, layout.balancer.y)
@@ -111,17 +155,17 @@ export const renderCluster = (
       ctx,
       node,
       node.radius * pulse,
-      dead ? COLORS.deadFill : COLORS.accent,
-      dead ? COLORS.deadLine : COLORS.accent,
+      dead ? palette.deadFill : palette.accent,
+      dead ? palette.deadLine : palette.accent,
     )
-    ctx.fillStyle = dead ? COLORS.deadText : COLORS.bg
-    ctx.font = LABEL_FONT
+    ctx.fillStyle = dead ? palette.deadText : palette.onAccent
+    ctx.font = labelFont
     ctx.fillText(dead ? '×' : `n${node.id + 1}`, node.x, node.y)
 
     if (!dead) {
       ctx.beginPath()
       ctx.arc(node.x, node.y, node.radius + 9, 0, Math.PI * 2)
-      ctx.strokeStyle = COLORS.accentHalo
+      ctx.strokeStyle = palette.accentHalo
       ctx.lineWidth = 1
       ctx.stroke()
     }
@@ -129,8 +173,8 @@ export const renderCluster = (
 
   const healthy = layout.nodes.length - offline.length
   ctx.textAlign = 'left'
-  ctx.fillStyle = COLORS.caption
-  ctx.font = '400 10px "IBM Plex Mono", monospace'
+  ctx.fillStyle = palette.caption
+  ctx.font = `400 12px ${palette.fontMono}`
   ctx.fillText(
     healthy ? `serving ${healthy}/${layout.nodes.length}` : 'TOTAL OUTAGE',
     14,
