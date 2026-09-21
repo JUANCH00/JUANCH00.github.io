@@ -10,8 +10,8 @@ const renderApp = () => render(<App repository={new FakeProfileRepository()} />)
 describe('the portfolio page', () => {
   it('renders the profile it is given, not a hard-coded one', () => {
     renderApp()
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('TestPerson')
-    expect(screen.getByText(/A supporting sentence/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Test Person')
+    expect(screen.getByText('A short lead sentence for the hero.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Project One' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Example Org' })).toBeInTheDocument()
   })

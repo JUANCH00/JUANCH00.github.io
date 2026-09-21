@@ -1,14 +1,17 @@
-import type { CSSProperties } from 'react'
-import { splitHighlight } from '@domain/profile'
+import { Fragment, type CSSProperties } from 'react'
 import { useProfile } from '@application/profile'
 import { ButtonLink, Container, Marquee } from '@ui/primitives'
 import { MAIN_CONTENT_ID } from '@app/navigation'
 import styles from './Hero.module.css'
 
+/**
+ * The first viewport holds four things and nothing else: availability, the
+ * name, one sentence, two actions. Everything else on the page is one scroll
+ * away, and the primary action has to be visible without that scroll on a
+ * laptop and on a phone.
+ */
 export const Hero = () => {
-  const { identity, summary, leadHighlight, kicker, availability, stackTicker, cvUrl } =
-    useProfile()
-  const lead = splitHighlight(summary[0] ?? '', leadHighlight)
+  const { identity, summary, availability, stackTicker, cvUrl } = useProfile()
 
   return (
     <>
@@ -18,39 +21,30 @@ export const Hero = () => {
         className={styles.hero}
         aria-labelledby="hero-name"
       >
-        <p className={styles.meta}>
-          <span>Systems Engineering — UPTC</span>
-          <span>Machine learning / backend</span>
-          <span className={styles.status}>◉ {availability.status}</span>
+        <p className={styles.status}>
+          {availability.status}, {availability.startsOn}
         </p>
 
         <h1 id="hero-name" className={styles.name}>
           {identity.displayLines.map((line, index) => (
-            <span key={line} className={styles.line}>
-              <span style={{ '--line-delay': `${index * 100}ms` } as CSSProperties}>{line}</span>
-            </span>
+            <Fragment key={line}>
+              {/* A real space between lines, so the heading reads as a name, not "EstebanMoreno". */}
+              {index > 0 && ' '}
+              <span className={styles.line}>
+                <span style={{ '--line-delay': `${index * 100}ms` } as CSSProperties}>{line}</span>
+              </span>
+            </Fragment>
           ))}
         </h1>
 
         <div className={styles.intro}>
-          <p className={styles.lead}>
-            {lead.map((segment, index) =>
-              segment.highlighted ? (
-                <span key={index} className={styles.leadAccent}>
-                  {segment.text}
-                </span>
-              ) : (
-                <span key={index}>{segment.text}</span>
-              ),
-            )}
-          </p>
-          <p className={styles.kicker}>{kicker[0]}</p>
+          <p className={styles.lead}>{summary[0]}</p>
           <div className={styles.actions}>
             <ButtonLink variant="primary" href="#work">
-              See the work ↓
+              See projects ↓
             </ButtonLink>
             <ButtonLink href={cvUrl} download>
-              Download CV (PDF)
+              Download CV
             </ButtonLink>
           </div>
         </div>

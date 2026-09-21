@@ -97,10 +97,8 @@ export interface LabConfig {
 
 export interface Profile {
   readonly identity: Identity
+  /** `summary[0]` is the hero lead: one or two sentences, 20 words at most. */
   readonly summary: readonly string[]
-  /** Phrase inside `summary[0]` the hero emphasises. See `splitHighlight`. */
-  readonly leadHighlight: string
-  readonly kicker: readonly string[]
   readonly stackTicker: readonly string[]
   readonly projects: readonly Project[]
   readonly experience: readonly ExperienceEntry[]

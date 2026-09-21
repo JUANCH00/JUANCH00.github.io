@@ -49,8 +49,16 @@ describe('the published profile', () => {
     }
   })
 
-  it('keeps the highlighted phrase inside the lead paragraph', () => {
-    expect(profile.summary[0]).toContain(profile.leadHighlight)
+  it('keeps the hero lead within 20 words', () => {
+    // Design rule (design/jem-design-system-v2, audit #7): the first viewport
+    // holds four text elements, and the lead is read in one glance.
+    const words = (profile.summary[0] ?? '').split(/\s+/).filter(Boolean)
+    expect(words.length).toBeGreaterThan(0)
+    expect(words.length).toBeLessThanOrEqual(20)
+  })
+
+  it('sets the name on two lines', () => {
+    expect(profile.identity.displayLines).toHaveLength(2)
   })
 
   it('describes a lab that matches the projects', () => {

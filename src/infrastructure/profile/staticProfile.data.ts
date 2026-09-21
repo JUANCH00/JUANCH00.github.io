@@ -17,20 +17,14 @@ export const staticProfile: Profile = {
   identity: {
     firstName: 'Juan Esteban',
     lastName: 'Moreno',
-    displayLines: ['Juan', 'Esteban', 'Moreno'],
+    displayLines: ['Juan Esteban', 'Moreno'],
     title: 'Systems Engineering student · ML and backend',
     location: 'Tunja, Colombia',
     timeZone: 'America/Bogota',
   },
 
   summary: [
-    'Systems Engineering student and AI Trainer at Outlier. I train models, wrap them in an API and put them in front of a user. That last part is the one almost nobody does.',
-  ],
-
-  leadHighlight: 'AI Trainer at Outlier',
-
-  kicker: [
-    'I have ranked and corrected 1,000+ language model completions, documenting recurring error patterns to guide RLHF iterations. Before that, two seasons working in English in the United States.',
+    'Systems Engineering student and AI Trainer. I train models, serve them through APIs and put them in front of users.',
   ],
 
   stackTicker: [
