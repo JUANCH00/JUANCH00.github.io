@@ -1,25 +1,31 @@
 .row {
   display: block;
-  padding: var(--space-7) 0;
   border-top: 1px solid var(--color-line);
   color: var(--color-text);
-  transition:
-    background var(--duration-base) ease,
-    padding-left var(--duration-base) ease;
+  transition: background var(--duration-base);
 }
 
 .row:hover,
 .row:focus-visible {
   background: var(--color-surface-hover);
-  padding-left: var(--space-5);
   color: var(--color-text);
+}
+
+.inner {
+  padding: var(--space-6) var(--space-4);
+  transition: transform var(--duration-base) var(--ease-out-expo);
+}
+
+.row:hover .inner,
+.row:focus-visible .inner {
+  transform: translateX(var(--space-4));
 }
 
 .head {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--space-3);
+  gap: var(--space-2) var(--space-4);
 }
 
 .name {
@@ -31,24 +37,37 @@
   text-transform: uppercase;
 }
 
+/* The row's only accent: a real number. */
 .metric {
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-button);
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-accent-text);
 }
 
+/* One column below 768px: the context takes its own line, left-aligned like
+   everything else. From 768px it moves to the right end of the name row. */
 .context {
-  margin-left: auto;
+  flex-basis: 100%;
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
+  letter-spacing: 0.02em;
   color: var(--color-text-dim);
 }
 
+@media (width >= 48rem) {
+  .context {
+    flex-basis: auto;
+    margin-left: auto;
+  }
+}
+
 .summary {
-  margin-top: var(--space-3);
   max-width: var(--max-measure);
-  font-size: 0.90625rem;
+  margin-top: var(--space-3);
+  font-size: var(--text-sm);
   line-height: 1.65;
   color: var(--color-text-muted);
 }

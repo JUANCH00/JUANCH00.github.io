@@ -1,17 +1,24 @@
+import { StrictMode } from 'react'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { App } from '@app/App'
 import { SECTIONS } from '@app/navigation'
 import { FakeProfileRepository, fakeProfile } from './fixtures/fakeProfile'
 
-const renderApp = () => render(<App repository={new FakeProfileRepository()} />)
+/** Rendered exactly as src/main.tsx mounts it, StrictMode included. */
+const renderApp = () =>
+  render(
+    <StrictMode>
+      <App repository={new FakeProfileRepository()} />
+    </StrictMode>,
+  )
 
 describe('the portfolio page', () => {
   it('renders the profile it is given, not a hard-coded one', () => {
     renderApp()
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('TestPerson')
-    expect(screen.getByText(/A supporting sentence/)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Test Person')
+    expect(screen.getByText('A short lead sentence for the hero.')).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Project One' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Example Org' })).toBeInTheDocument()
   })
@@ -40,6 +47,15 @@ describe('the portfolio page', () => {
     }
   })
 
+  it('lists the sections in the nav in the order they appear on the page', () => {
+    const { container } = renderApp()
+    const onPage = [...container.querySelectorAll('main section[id]')]
+      .map((section) => section.id)
+      .filter((id) => SECTIONS.some((section) => section.id === id))
+
+    expect(onPage).toEqual(SECTIONS.map((section) => section.id))
+  })
+
   it('links a published note but never a draft one', () => {
     renderApp()
     expect(screen.getByRole('link', { name: /A published note/ })).toHaveAttribute(
@@ -59,7 +75,7 @@ describe('the portfolio page', () => {
 
     await user.click(node)
     expect(node).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText(/n2 down — balancer rerouted, 2\/3 serving/)).toBeInTheDocument()
+    expect(screen.getByText('> n2 down: balancer rerouted, 2/3 serving')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /Restore all/i }))
     expect(screen.getByRole('button', { name: 'n2' })).toHaveAttribute('aria-pressed', 'false')
@@ -72,7 +88,38 @@ describe('the portfolio page', () => {
     const goal = screen.getByRole('group', { name: /Goal/ })
     await user.click(within(goal).getByRole('button', { name: /Shoot top left/ }))
 
-    expect(await screen.findByText(/saved|goal —/)).toBeInTheDocument()
+    expect(
+      await screen.findByText(/^(Saved, the model called it|Goal, outside the model)$/),
+    ).toBeInTheDocument()
+    // One click, one point: never two, never a goal and a save at once.
+    expect(screen.getByText(/^Goals \d, saves \d$/)).toHaveTextContent(
+      /^Goals (0, saves 1|1, saves 0)$/,
+    )
+    // While the result is on screen, the goal takes no more shots.
+    for (const cell of within(goal).getAllByRole('button')) expect(cell).toBeDisabled()
+  })
+
+  it('offers the email as a link and copies it on request', async () => {
+    const user = userEvent.setup()
+    renderApp()
+
+    expect(screen.getByRole('link', { name: fakeProfile.email })).toHaveAttribute(
+      'href',
+      `mailto:${fakeProfile.email}`,
+    )
+
+    await user.click(screen.getByRole('button', { name: 'Copy email address' }))
+    expect(screen.getByRole('button', { name: 'Copied email address' })).toBeInTheDocument()
+    await expect(navigator.clipboard.readText()).resolves.toBe(fakeProfile.email)
+  })
+
+  it('says so when the browser blocks the clipboard', async () => {
+    const user = userEvent.setup()
+    renderApp()
+    vi.spyOn(navigator.clipboard, 'writeText').mockRejectedValue(new Error('denied'))
+
+    await user.click(screen.getByRole('button', { name: 'Copy email address' }))
+    expect(screen.getByText(/Copy blocked by the browser/)).toBeInTheDocument()
   })
 
   it('exposes one labelled landmark per section', () => {

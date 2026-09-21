@@ -1,7 +1,6 @@
 import type { ProfileRepository } from '@domain/profile'
 import { ProfileProvider } from '@application/profile'
-import { PointerHalo } from '@ui/effects/PointerHalo'
-import { SkipLink } from '@ui/primitives'
+import { Container, SkipLink } from '@ui/primitives'
 import { NavBar } from '@features/navigation/NavBar'
 import { Hero } from '@features/hero/Hero'
 import { WorkSection } from '@features/work/WorkSection'
@@ -25,22 +24,23 @@ import styles from './App.module.css'
 export const App = ({ repository }: { readonly repository: ProfileRepository }) => (
   <ProfileProvider repository={repository}>
     <SkipLink targetId={MAIN_CONTENT_ID} />
-    <PointerHalo />
     <NavBar />
     <main className={styles.main}>
       <Hero />
       <WorkSection />
-      <ExperienceSection />
       <ErrorBoundary
         fallback={
-          <p className={styles.labFallback}>
-            The interactive lab could not start in this browser. Everything it demonstrates is
-            described in the projects above.
-          </p>
+          <Container>
+            <p className={styles.labFallback}>
+              The interactive lab could not start in this browser. Everything it demonstrates is
+              described in the projects above.
+            </p>
+          </Container>
         }
       >
         <LabSection />
       </ErrorBoundary>
+      <ExperienceSection />
       <StackSection />
       <NotesSection />
       <ContactSection />

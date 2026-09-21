@@ -9,7 +9,7 @@ export const initialPenaltyState: PenaltyState = {
   goals: 0,
   saves: 0,
   phase: 'idle',
-  lastShot: null,
+  shot: null,
 }
 
 /** Clamp an arbitrary number into the 0..100 range a percentage may occupy. */
@@ -48,23 +48,32 @@ export const resolveShot = (
   return { targetCell, keeperCell, saved: false }
 }
 
-/** Move to the "ball is in the air" phase. Ignored while a shot is resolving. */
-export const startShot = (state: PenaltyState): PenaltyState =>
-  state.phase === 'idle' ? { ...state, phase: 'shooting' } : state
+/**
+ * Every transition below is a pure function that ignores calls from the wrong
+ * phase. That makes each one safe to hand to React as a state updater, which
+ * the framework may run more than once, and harmless if a stray timer fires
+ * twice: a shot is taken once, scored once and cleared once.
+ */
 
-/** Record a resolved shot in the score. */
-export const applyShot = (state: PenaltyState, outcome: ShotOutcome): PenaltyState => ({
-  goals: outcome.saved ? state.goals : state.goals + 1,
-  saves: outcome.saved ? state.saves + 1 : state.saves,
-  phase: 'resolved',
-  lastShot: outcome,
-})
+/** Put a shot in the air. Ignored unless the pitch is idle: one ball at a time. */
+export const startShot = (state: PenaltyState, shot: ShotOutcome): PenaltyState =>
+  state.phase === 'idle' ? { ...state, phase: 'shooting', shot } : state
 
-/** Return to `idle` so the next shot is accepted, keeping the score. */
-export const readyForNextShot = (state: PenaltyState): PenaltyState => ({
-  ...state,
-  phase: 'idle',
-})
+/** Score the shot in the air, exactly once. */
+export const scoreShot = (state: PenaltyState): PenaltyState => {
+  if (state.phase !== 'shooting' || !state.shot) return state
+  const { saved } = state.shot
+  return {
+    ...state,
+    goals: saved ? state.goals : state.goals + 1,
+    saves: saved ? state.saves + 1 : state.saves,
+    phase: 'resolved',
+  }
+}
+
+/** Clear the pitch after a scored shot, keeping the score. */
+export const readyForNextShot = (state: PenaltyState): PenaltyState =>
+  state.phase === 'resolved' ? { ...state, phase: 'idle', shot: null } : state
 
 export const canShoot = (state: PenaltyState): boolean => state.phase === 'idle'
 

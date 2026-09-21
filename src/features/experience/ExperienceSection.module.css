@@ -1,6 +1,4 @@
 .list {
-  display: grid;
-  gap: 0;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -10,66 +8,70 @@
 .entry {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: var(--space-4);
-  padding: var(--space-7) 0;
+  gap: var(--space-3) var(--space-6);
+  padding: var(--space-6) 0;
   border-top: 1px solid var(--color-line);
 }
 
 @media (width >= 48rem) {
   .entry {
     grid-template-columns: 14rem minmax(0, 1fr);
-    gap: var(--space-7);
   }
 }
 
 .period {
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
+  font-size: var(--text-label);
+  line-height: 1.5;
+  letter-spacing: 0.02em;
   color: var(--color-text-dim);
 }
 
 .location {
   display: block;
   margin-top: var(--space-1);
-  color: var(--color-text-faint);
 }
 
 .org {
   font-family: var(--font-display);
   font-weight: 400;
-  font-size: 1.75rem;
+  font-size: var(--display-org);
   line-height: 1.05;
   text-transform: uppercase;
 }
 
+/* Roles are read, not flagged: soft text, not the accent. */
 .role {
-  margin-top: var(--space-2);
+  margin-top: var(--space-1);
   font-size: var(--text-sm);
-  color: var(--color-accent);
+  color: var(--color-text-soft);
 }
 
 .highlights {
-  margin: var(--space-4) 0 0;
-  padding: 0;
-  list-style: none;
   display: grid;
   gap: var(--space-3);
   max-width: var(--max-measure);
-  font-size: 0.90625rem;
+  margin: var(--space-4) 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: var(--text-sm);
   line-height: 1.65;
   color: var(--color-text-muted);
 }
 
 .highlights li {
-  padding-left: var(--space-5);
   position: relative;
+  padding-left: var(--space-5);
 }
 
+/* A short neutral rule as the marker, drawn rather than typed, so no dash
+   character ends up in the text. */
 .highlights li::before {
-  content: '—';
+  content: '';
   position: absolute;
+  top: 0.8em;
   left: 0;
-  color: var(--color-accent);
+  width: 10px;
+  height: 1px;
+  background: var(--color-text-dim);
 }

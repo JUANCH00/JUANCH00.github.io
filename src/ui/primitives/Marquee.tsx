@@ -21,7 +21,7 @@ export const Marquee = ({ items, label }: MarqueeProps) => (
         items.map((item) => (
           <Fragment key={`${copy}-${item}`}>
             <span>{item}</span>
-            <span className={styles.separator}>✱</span>
+            <span className={styles.separator}>/</span>
           </Fragment>
         )),
       )}

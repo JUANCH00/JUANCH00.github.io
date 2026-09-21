@@ -1,8 +1,9 @@
 import { useEffect, useRef } from 'react'
 import { useClusterSimulation } from '@application/lab'
 import { usePrefersReducedMotion } from '@ui/hooks/useMediaQuery'
+import { Button } from '@ui/primitives'
 import { layoutCluster, nodeAt, type ClusterLayout } from './clusterLayout'
-import { renderCluster, type Packet } from './clusterRenderer'
+import { readPalette, renderCluster, type Packet } from './clusterRenderer'
 import { clusterEventText } from './clusterMessages'
 import styles from './ClusterLab.module.css'
 
@@ -37,6 +38,7 @@ export const ClusterLab = ({ size }: { readonly size: number }) => {
     const ctx = canvas?.getContext('2d')
     if (!canvas || !ctx) return
 
+    const palette = readPalette(canvas)
     const dpr = Math.min(window.devicePixelRatio || 1, 2)
     let layout: ClusterLayout = layoutCluster(0, 0, size)
     let width = 0
@@ -73,6 +75,7 @@ export const ClusterLab = ({ size }: { readonly size: number }) => {
       }
 
       renderCluster(ctx, width, height, {
+        palette,
         layout,
         offline: state.offline,
         time,
@@ -116,20 +119,19 @@ export const ClusterLab = ({ size }: { readonly size: number }) => {
         {/* Keyboard and screen-reader path to the same actions as the canvas. */}
         <div className={styles.nodes}>
           {cluster.nodes.map((id) => (
-            <button
+            <Button
               key={id}
-              type="button"
-              className={styles.node}
+              size="sm"
               aria-pressed={cluster.isDown(id)}
               onClick={() => cluster.toggle(id)}
             >
               n{id + 1}
-            </button>
+            </Button>
           ))}
         </div>
-        <button type="button" className={styles.restore} onClick={cluster.restore}>
+        <Button size="sm" onClick={cluster.restore}>
           Restore all
-        </button>
+        </Button>
       </div>
 
       <p className={styles.log} role="status">

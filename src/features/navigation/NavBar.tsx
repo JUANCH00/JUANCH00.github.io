@@ -1,28 +1,31 @@
-import { useProfile } from '@application/profile'
-import { useLocalTime } from '@ui/hooks/useLocalTime'
-import { MAIN_CONTENT_ID, SECTIONS } from '@app/navigation'
+import { useActiveSection } from '@ui/hooks/useActiveSection'
+import { Container } from '@ui/primitives'
+import { MAIN_CONTENT_ID, SECTIONS, SECTION_IDS } from '@app/navigation'
 import styles from './NavBar.module.css'
 
 export const NavBar = () => {
-  const { identity } = useProfile()
-  const time = useLocalTime(identity.timeZone)
+  const active = useActiveSection(SECTION_IDS)
 
   return (
     <nav className={styles.nav} aria-label="Primary">
-      <a className={styles.brand} href={`#${MAIN_CONTENT_ID}`}>
-        J.E.M. ⌁ 2027
-      </a>
-      <div className={styles.links}>
-        {SECTIONS.map((section) => (
-          <a key={section.id} href={`#${section.id}`}>
-            {section.label}
-          </a>
-        ))}
-      </div>
-      {/* Polite, not assertive: the clock must never interrupt a screen reader. */}
-      <span className={styles.clock} aria-live="off">
-        <time>{time}</time> Tunja
-      </span>
+      <Container className={styles.inner}>
+        <a className={styles.brand} href={`#${MAIN_CONTENT_ID}`}>
+          J.E.M.
+        </a>
+        <ul className={styles.links}>
+          {SECTIONS.map((section) => (
+            <li key={section.id}>
+              <a
+                className={styles.link}
+                href={`#${section.id}`}
+                aria-current={active === section.id ? 'true' : undefined}
+              >
+                {section.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Container>
     </nav>
   )
 }

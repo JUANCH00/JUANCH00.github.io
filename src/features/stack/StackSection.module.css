@@ -9,8 +9,9 @@
   font-family: var(--font-display);
   font-weight: 400;
   font-size: var(--display-card);
+  line-height: 1;
   text-transform: uppercase;
-  color: var(--color-accent);
+  color: var(--color-text);
 }
 
 .skills {
@@ -20,6 +21,6 @@
   margin: 0;
   padding: 0;
   list-style: none;
-  font-size: 0.9375rem;
+  font-size: var(--text-sm);
   color: var(--color-text-soft);
 }

@@ -1,0 +1,43 @@
+{
+ "v": 3,
+ "layout": "files",
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-09-21T17:10:00Z"
+ },
+ "title": "JEM Portfolio",
+ "namespace": "Jem",
+ "libraries": [],
+ "sections": {},
+ "groups": [
+  "Logos"
+ ],
+ "assetGroups": {
+  "Logos": {
+   "name": "Logos",
+   "tile": "m",
+   "order": [
+    "favicon.svg"
+   ],
+   "files": {
+    "favicon.svg": {
+     "name": "favicon.svg",
+     "blob": "38f3c08991ef9ce94cb9af4a1c0fc642",
+     "size": 238,
+     "type": "image/svg+xml"
+    }
+   }
+  }
+ },
+ "blobs": {},
+ "docs": {
+  "readme": "project/README.md",
+  "sections": []
+ },
+ "lastChange": {
+  "by": "Juan Moreno",
+  "at": "2026-09-21T17:10:00Z",
+  "via": "GitHub · JUANCH00/JUANCH00.github.io@0670fa3",
+  "note": "v2: tokens del repo refinados tras auditoría (impeccable, design-taste-frontend, ui-ux-pro-max), 11 componentes, tema Paper"
+ }
+}

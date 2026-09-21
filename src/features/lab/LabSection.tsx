@@ -32,10 +32,10 @@ export const LabSection = () => {
   const { lab } = useProfile()
 
   return (
-    <Section id="lab" title="Lab" label="Lab — two things built from the projects above">
+    <Section id="lab" title="Lab" description="Two things built from the projects above.">
       <div className={styles.grid}>
         <LabCard
-          title="01 / Penalty shootout"
+          title="Penalty shootout"
           badge={`Keeper accuracy ${lab.modelAccuracy}%`}
           blurb={`My World Cup model calls matches at ${lab.modelAccuracy}%. The keeper below guesses with the same odds. Pick a corner and try to beat it.`}
           delay={0}
@@ -44,7 +44,7 @@ export const LabSection = () => {
         </LabCard>
 
         <LabCard
-          title="02 / Kill a node"
+          title="Kill a node"
           badge={`${lab.clusterSize} replicas`}
           blurb="Temuviator keeps serving when a replica dies. Take a node offline and watch the balancer reroute traffic around it."
           delay={80}

@@ -6,14 +6,19 @@
  * scrolls nowhere.
  */
 export const SECTIONS = [
-  { id: 'work', label: 'Work' },
-  { id: 'experience', label: 'Experience' },
+  // The id stays `work` so existing links to /#work keep landing.
+  { id: 'work', label: 'Projects' },
+  // The Lab proves what the projects claim, so it comes straight after them.
   { id: 'lab', label: 'Lab' },
+  { id: 'experience', label: 'Experience' },
   { id: 'stack', label: 'Stack' },
   { id: 'notes', label: 'Notes' },
   { id: 'contact', label: 'Contact' },
 ] as const
 
 export type SectionId = (typeof SECTIONS)[number]['id']
+
+/** Stable for the life of the page, so observers keyed on it are built once. */
+export const SECTION_IDS: readonly SectionId[] = SECTIONS.map((section) => section.id)
 
 export const MAIN_CONTENT_ID = 'top'

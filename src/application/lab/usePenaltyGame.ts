@@ -1,27 +1,28 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
-  applyShot,
   canShoot,
   initialPenaltyState,
   readyForNextShot,
   resolveShot,
+  scoreShot,
   startShot,
   type GoalCell,
   type PenaltyState,
   type RandomSource,
-  type ShotOutcome,
 } from '@domain/lab'
 
 /** How long the ball is in the air before the outcome is scored. */
-const FLIGHT_MS = 480
+export const FLIGHT_MS = 480
 /** How long the result stays on screen before the pitch resets. */
-const RESET_MS = 1100
+export const RESET_MS = 1100
 
 export type PenaltyStatus = 'ready' | 'guessing' | 'saved' | 'scored'
 
 export interface PenaltyGame {
   readonly state: PenaltyState
   readonly status: PenaltyStatus
+  /** False while a shot is in the air or its result is on screen. */
+  readonly canShoot: boolean
   readonly keeperCell: GoalCell | null
   readonly ballCell: GoalCell | null
   readonly shoot: (cell: GoalCell) => void
@@ -33,22 +34,28 @@ interface Options {
   readonly random?: RandomSource
 }
 
-const statusOf = (state: PenaltyState): PenaltyStatus => {
-  if (state.phase === 'shooting') return 'guessing'
-  if (state.phase === 'resolved' && state.lastShot) return state.lastShot.saved ? 'saved' : 'scored'
+const statusOf = ({ phase, shot }: PenaltyState): PenaltyStatus => {
+  if (phase === 'shooting') return 'guessing'
+  if (phase === 'resolved' && shot) return shot.saved ? 'saved' : 'scored'
   return 'ready'
 }
 
 /**
  * React binding for the penalty rules in `@domain/lab`.
  *
- * The hook owns only what is genuinely a UI concern — timers and the
- * in-flight positions used for the animation. Scoring lives in the domain,
- * where it is tested without rendering anything.
+ * Side effects live in the click handler and nowhere else: the random draw
+ * and the timers run exactly once per shot. They used to live inside a state
+ * updater, which React is free to call more than once (and does, on purpose,
+ * in development), so one click could score twice, not at all, or as a goal
+ * and a save at the same time. Every updater passed to `setState` here is a
+ * pure domain transition.
  */
 export const usePenaltyGame = ({ accuracy, random = Math.random }: Options): PenaltyGame => {
   const [state, setState] = useState<PenaltyState>(initialPenaltyState)
-  const [pending, setPending] = useState<ShotOutcome | null>(null)
+  // Two clicks in the same frame both run before React re-renders, so the
+  // "one ball at a time" guard cannot wait for state: it has to be a ref that
+  // flips synchronously. The domain guards the same rule a second time.
+  const shotInProgress = useRef(false)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
 
   useEffect(
@@ -61,26 +68,19 @@ export const usePenaltyGame = ({ accuracy, random = Math.random }: Options): Pen
 
   const shoot = useCallback(
     (cell: GoalCell) => {
-      setState((current) => {
-        if (!canShoot(current)) return current
+      if (shotInProgress.current) return
+      shotInProgress.current = true
 
-        const outcome = resolveShot(cell, accuracy, random)
-        setPending(outcome)
+      const shot = resolveShot(cell, accuracy, random)
+      setState((current) => startShot(current, shot))
 
-        timers.current.push(
-          setTimeout(() => {
-            setState((s) => applyShot(s, outcome))
-            timers.current.push(
-              setTimeout(() => {
-                setPending(null)
-                setState(readyForNextShot)
-              }, RESET_MS),
-            )
-          }, FLIGHT_MS),
-        )
-
-        return startShot(current)
-      })
+      timers.current = [
+        setTimeout(() => setState(scoreShot), FLIGHT_MS),
+        setTimeout(() => {
+          shotInProgress.current = false
+          setState(readyForNextShot)
+        }, FLIGHT_MS + RESET_MS),
+      ]
     },
     [accuracy, random],
   )
@@ -88,8 +88,9 @@ export const usePenaltyGame = ({ accuracy, random = Math.random }: Options): Pen
   return {
     state,
     status: statusOf(state),
-    keeperCell: pending?.keeperCell ?? null,
-    ballCell: pending?.targetCell ?? null,
+    canShoot: canShoot(state),
+    keeperCell: state.shot?.keeperCell ?? null,
+    ballCell: state.shot?.targetCell ?? null,
     shoot,
   }
 }

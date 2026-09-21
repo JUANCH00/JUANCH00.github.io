@@ -49,8 +49,30 @@ describe('the published profile', () => {
     }
   })
 
-  it('keeps the highlighted phrase inside the lead paragraph', () => {
-    expect(profile.summary[0]).toContain(profile.leadHighlight)
+  it('keeps the hero lead within 20 words', () => {
+    // Design rule (design/jem-design-system-v2, audit #7): the first viewport
+    // holds four text elements, and the lead is read in one glance.
+    const words = (profile.summary[0] ?? '').split(/\s+/).filter(Boolean)
+    expect(words.length).toBeGreaterThan(0)
+    expect(words.length).toBeLessThanOrEqual(20)
+  })
+
+  it('uses no em or en dash anywhere in the content', () => {
+    // Voice rule: ranges take a hyphen, separators a comma or a line break.
+    const strings: string[] = []
+    const collect = (value: unknown): void => {
+      if (typeof value === 'string') strings.push(value)
+      else if (Array.isArray(value)) value.forEach(collect)
+      else if (value && typeof value === 'object') Object.values(value).forEach(collect)
+    }
+    collect(profile)
+
+    expect(strings.length).toBeGreaterThan(50)
+    expect(strings.filter((text) => /[\u2013\u2014]/.test(text))).toEqual([])
+  })
+
+  it('sets the name on two lines', () => {
+    expect(profile.identity.displayLines).toHaveLength(2)
   })
 
   it('describes a lab that matches the projects', () => {

@@ -9,10 +9,9 @@ export const ExperienceSection = () => {
     <Section
       id="experience"
       title="Experience"
-      label="Experience — what I have actually shipped"
       aside={
         <a href={cvUrl} download>
-          Full CV (PDF) →
+          Download CV →
         </a>
       }
     >
