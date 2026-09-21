@@ -1,24 +1,34 @@
 .marquee {
   margin-top: var(--space-9);
   padding: var(--space-4) 0;
-  border-top: 1px solid var(--color-line);
-  border-bottom: 1px solid var(--color-line);
+  border-block: 1px solid var(--color-line);
   overflow: hidden;
   white-space: nowrap;
 }
 
 .track {
   display: inline-flex;
-  gap: var(--space-8);
   font-family: var(--font-display);
-  font-size: clamp(1.625rem, 4vw, 3.25rem);
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  line-height: 1.1;
   text-transform: uppercase;
-  animation: slide var(--marquee-duration, 26s) linear infinite;
+  color: var(--color-text-soft);
+  animation: slide var(--duration-marquee) linear infinite;
   will-change: transform;
 }
 
+/* Spacing is a trailing margin on every item, not a flex gap: with a gap the
+   two copies differ by half a gap and the loop visibly jumps at -50%. */
+.track > * {
+  margin-right: var(--space-8);
+}
+
+.marquee:hover .track {
+  animation-play-state: paused;
+}
+
 .separator {
-  color: var(--color-accent);
+  color: var(--color-text-dim);
 }
 
 @keyframes slide {
