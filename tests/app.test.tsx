@@ -1,3 +1,4 @@
+import { StrictMode } from 'react'
 import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it, vi } from 'vitest'
@@ -5,7 +6,13 @@ import { App } from '@app/App'
 import { SECTIONS } from '@app/navigation'
 import { FakeProfileRepository, fakeProfile } from './fixtures/fakeProfile'
 
-const renderApp = () => render(<App repository={new FakeProfileRepository()} />)
+/** Rendered exactly as src/main.tsx mounts it, StrictMode included. */
+const renderApp = () =>
+  render(
+    <StrictMode>
+      <App repository={new FakeProfileRepository()} />
+    </StrictMode>,
+  )
 
 describe('the portfolio page', () => {
   it('renders the profile it is given, not a hard-coded one', () => {
@@ -84,9 +91,12 @@ describe('the portfolio page', () => {
     expect(
       await screen.findByText(/^(Saved, the model called it|Goal, outside the model)$/),
     ).toBeInTheDocument()
+    // One click, one point: never two, never a goal and a save at once.
     expect(screen.getByText(/^Goals \d, saves \d$/)).toHaveTextContent(
-      /Goals (0, saves 1|1, saves 0)/,
+      /^Goals (0, saves 1|1, saves 0)$/,
     )
+    // While the result is on screen, the goal takes no more shots.
+    for (const cell of within(goal).getAllByRole('button')) expect(cell).toBeDisabled()
   })
 
   it('offers the email as a link and copies it on request', async () => {

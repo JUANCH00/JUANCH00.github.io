@@ -1,13 +1,13 @@
 import { describe, expect, it } from 'vitest'
 import {
   GOAL_CELL_COUNT,
-  applyShot,
   canShoot,
   clampAccuracy,
   initialPenaltyState,
   isValidCell,
   readyForNextShot,
   resolveShot,
+  scoreShot,
   startShot,
   totalShots,
 } from './penalty.machine'
@@ -82,35 +82,50 @@ describe('resolveShot', () => {
 })
 
 describe('the shot lifecycle', () => {
-  it('counts a goal and a save on the right side of the scoreboard', () => {
-    const scored = applyShot(initialPenaltyState, { targetCell: 1, keeperCell: 4, saved: false })
-    expect(scored).toMatchObject({ goals: 1, saves: 0, phase: 'resolved' })
+  const goal = { targetCell: 1, keeperCell: 4, saved: false } as const
+  const save = { targetCell: 2, keeperCell: 2, saved: true } as const
 
-    const saved = applyShot(scored, { targetCell: 1, keeperCell: 1, saved: true })
-    expect(saved).toMatchObject({ goals: 1, saves: 1 })
-    expect(totalShots(saved)).toBe(2)
+  it('puts one shot in the air and remembers it', () => {
+    const shooting = startShot(initialPenaltyState, goal)
+    expect(shooting).toMatchObject({ phase: 'shooting', shot: goal, goals: 0, saves: 0 })
+    expect(canShoot(shooting)).toBe(false)
   })
 
   it('refuses a second shot while one is in the air', () => {
-    const shooting = startShot(initialPenaltyState)
-    expect(canShoot(shooting)).toBe(false)
-    expect(startShot(shooting)).toBe(shooting)
+    const shooting = startShot(initialPenaltyState, goal)
+    expect(startShot(shooting, save)).toBe(shooting)
   })
 
-  it('keeps the score when it resets for the next shot', () => {
-    const resolved = applyShot(startShot(initialPenaltyState), {
-      targetCell: 0,
-      keeperCell: 3,
-      saved: false,
-    })
-    const next = readyForNextShot(resolved)
-    expect(next).toMatchObject({ goals: 1, phase: 'idle' })
+  it('scores the shot that is in the air, on the right side of the board', () => {
+    const scored = scoreShot(startShot(initialPenaltyState, goal))
+    expect(scored).toMatchObject({ goals: 1, saves: 0, phase: 'resolved', shot: goal })
+
+    const saved = scoreShot(startShot(readyForNextShot(scored), save))
+    expect(saved).toMatchObject({ goals: 1, saves: 1, shot: save })
+    expect(totalShots(saved)).toBe(2)
+  })
+
+  it('scores each shot exactly once, however often scoring is requested', () => {
+    // React may run a state updater twice, and a stray timer may fire twice.
+    const once = scoreShot(startShot(initialPenaltyState, goal))
+    expect(scoreShot(once)).toBe(once)
+    expect(scoreShot(initialPenaltyState)).toBe(initialPenaltyState)
+  })
+
+  it('clears the pitch but keeps the score', () => {
+    const next = readyForNextShot(scoreShot(startShot(initialPenaltyState, goal)))
+    expect(next).toMatchObject({ goals: 1, saves: 0, phase: 'idle', shot: null })
     expect(canShoot(next)).toBe(true)
+  })
+
+  it('never clears a shot that has not been scored yet', () => {
+    const shooting = startShot(initialPenaltyState, goal)
+    expect(readyForNextShot(shooting)).toBe(shooting)
   })
 
   it('never mutates the state it is given', () => {
     const frozen = Object.freeze({ ...initialPenaltyState })
-    applyShot(frozen, { targetCell: 0, keeperCell: 1, saved: false })
-    expect(frozen.goals).toBe(0)
+    scoreShot(startShot(frozen, goal))
+    expect(frozen).toEqual(initialPenaltyState)
   })
 })

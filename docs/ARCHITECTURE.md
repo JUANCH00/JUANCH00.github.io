@@ -101,6 +101,7 @@ nav order equal to page order. See [ADR 5](adr/0005-design-system-v2.md).
 | Unit         | `src/domain/**/*.test.ts`                          | Scoring and failover: the rules                                                           |
 | Unit         | `src/features/lab/**/*.test.ts`                    | Pitch and cluster geometry, the wording of every game state                               |
 | Unit         | `src/ui/hooks/*.test.ts`                           | Which section counts as active                                                            |
+| Unit         | `src/application/**/*.test.tsx`                    | The penalty hook under StrictMode: one draw and one point per shot, however React runs it |
 | Contract     | `src/infrastructure/profile/staticProfile.test.ts` | Content invariants, including the voice rules                                             |
 | Integration  | `tests/app.test.tsx`                               | The page renders an injected profile, nav matches page order, lab and email controls work |
 | Copy         | `tests/copy.test.tsx`                              | The real page: no em dash in visible or spoken text, no decorative numbering              |

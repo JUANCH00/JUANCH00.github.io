@@ -6,9 +6,11 @@ import {
   BALL_REST,
   KEEPER_REST,
   PITCH,
+  SIZES_REM,
   cellLabel,
   cellPosition,
   keeperDive,
+  keeperTilt,
   type CellPosition,
 } from './goalGeometry'
 import { penaltyStatusText, scoreText } from './penaltyMessages'
@@ -22,11 +24,15 @@ import styles from './PenaltyLab.module.css'
 const place = ({ leftPct, bottomPct }: CellPosition): CSSProperties =>
   ({ '--left': `${leftPct}%`, '--bottom': `${bottomPct}%` }) as CSSProperties
 
-/** The frame and ground are drawn from the same numbers the geometry uses. */
-const pitchInsets = {
+/** The pitch is drawn from the same numbers the geometry and its tests use. */
+const pitchVars = {
   '--inset-top': `${PITCH.topInsetPct}%`,
   '--inset-side': `${PITCH.sideInsetPct}%`,
   '--ground': `${PITCH.groundPct}%`,
+  '--pitch-height': `${SIZES_REM.pitchHeight}rem`,
+  '--keeper-width': `${SIZES_REM.keeperWidth}rem`,
+  '--keeper-height': `${SIZES_REM.keeperHeight}rem`,
+  '--ball-size': `${SIZES_REM.ball}rem`,
 } as CSSProperties
 
 const cells: readonly GoalCell[] = Array.from({ length: GOAL_CELL_COUNT }, (_, index) => index)
@@ -36,15 +42,16 @@ const cells: readonly GoalCell[] = Array.from({ length: GOAL_CELL_COUNT }, (_, i
  * so playing this is the same as reading the number — only harder to forget.
  */
 export const PenaltyLab = ({ accuracy }: { readonly accuracy: number }) => {
-  const { state, status, keeperCell, ballCell, shoot } = usePenaltyGame({ accuracy })
+  const { state, status, canShoot, keeperCell, ballCell, shoot } = usePenaltyGame({ accuracy })
 
+  // Ball, keeper and scoreboard all derive from the one shot in `state`.
   const ball = ballCell === null ? BALL_REST : cellPosition(ballCell)
   const keeper = keeperCell === null ? KEEPER_REST : keeperDive(keeperCell)
-  const tilt = keeperCell === null ? 0 : keeperCell % 3 === 0 ? -12 : keeperCell % 3 === 2 ? 12 : 0
+  const tilt = keeperCell === null ? 0 : keeperTilt(keeperCell)
 
   return (
     <>
-      <div className={styles.pitch} style={pitchInsets}>
+      <div className={styles.pitch} style={pitchVars}>
         <div className={styles.frame} aria-hidden="true" />
         <div className={styles.ground} aria-hidden="true" />
         <div
@@ -69,7 +76,7 @@ export const PenaltyLab = ({ accuracy }: { readonly accuracy: number }) => {
               type="button"
               className={styles.cell}
               onClick={() => shoot(cell)}
-              disabled={status === 'guessing'}
+              disabled={!canShoot}
             >
               <VisuallyHidden>Shoot {cellLabel(cell)}</VisuallyHidden>
             </button>
