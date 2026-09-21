@@ -1,0 +1,62 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  /* 48px: comfortably above --target-min for the page's main actions. */
+  min-height: var(--space-8);
+  padding: 0 var(--space-5);
+  border: 1px solid var(--color-border-control);
+  border-radius: var(--radius-none);
+  background: transparent;
+  color: var(--color-text);
+  font-family: var(--font-mono);
+  font-size: var(--text-button);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: var(--tracking-button);
+  text-transform: uppercase;
+  /* A button label never wraps: if it does not fit on one line it is too long. */
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background var(--duration-fast),
+    border-color var(--duration-fast),
+    color var(--duration-fast),
+    transform var(--duration-fast);
+}
+
+.button:hover {
+  background: var(--color-surface-hover);
+  border-color: var(--color-text-dim);
+  color: var(--color-text);
+}
+
+.button:active {
+  transform: translateY(1px);
+}
+
+.primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: var(--color-on-accent);
+}
+
+.primary:hover {
+  background: var(--color-accent-hover);
+  border-color: var(--color-accent-hover);
+  color: var(--color-on-accent);
+}
+
+.sm {
+  min-height: var(--target-min);
+  padding: 0 var(--space-4);
+  font-size: var(--text-label);
+}
+
+/* Toggle buttons (the cluster nodes): "off" reads as struck through, not as disabled. */
+.button[aria-pressed='true'] {
+  border-color: var(--color-line-strong);
+  color: var(--color-text-dim);
+  text-decoration: line-through;
+}

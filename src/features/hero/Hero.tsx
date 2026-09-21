@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { splitHighlight } from '@domain/profile'
 import { useProfile } from '@application/profile'
-import { Container, Marquee } from '@ui/primitives'
+import { ButtonLink, Container, Marquee } from '@ui/primitives'
 import { MAIN_CONTENT_ID } from '@app/navigation'
 import styles from './Hero.module.css'
 
@@ -46,12 +46,12 @@ export const Hero = () => {
           </p>
           <p className={styles.kicker}>{kicker[0]}</p>
           <div className={styles.actions}>
-            <a className={`${styles.action} ${styles.primary}`} href="#work">
+            <ButtonLink variant="primary" href="#work">
               See the work ↓
-            </a>
-            <a className={styles.action} href={cvUrl} download>
+            </ButtonLink>
+            <ButtonLink href={cvUrl} download>
               Download CV (PDF)
-            </a>
+            </ButtonLink>
           </div>
         </div>
       </Container>

@@ -82,34 +82,3 @@
   gap: var(--space-3);
   align-items: flex-start;
 }
-
-.action {
-  font-family: var(--font-mono);
-  font-size: var(--text-button);
-  letter-spacing: var(--tracking-button);
-  text-transform: uppercase;
-  padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--color-border-control);
-  color: var(--color-text);
-  transition:
-    background var(--duration-fast) ease,
-    color var(--duration-fast) ease;
-}
-
-.action:hover {
-  background: var(--color-surface-hover);
-  color: var(--color-text);
-}
-
-.primary {
-  background: var(--color-accent);
-  border-color: var(--color-accent);
-  color: var(--color-on-accent);
-  font-weight: 500;
-}
-
-.primary:hover {
-  background: var(--color-accent-hover);
-  border-color: var(--color-accent-hover);
-  color: var(--color-on-accent);
-}

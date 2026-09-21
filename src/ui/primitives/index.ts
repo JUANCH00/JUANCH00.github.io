@@ -1,3 +1,5 @@
+export { Button, ButtonLink } from './Button'
+export type { ButtonSize, ButtonVariant } from './Button'
 export { Container } from './Container'
 export { Marquee } from './Marquee'
 export { Reveal } from './Reveal'
