@@ -32,7 +32,7 @@ export const LabSection = () => {
   const { lab } = useProfile()
 
   return (
-    <Section id="lab" title="Lab" label="Lab — two things built from the projects above">
+    <Section id="lab" title="Lab" description="Two things built from the projects above.">
       <div className={styles.grid}>
         <LabCard
           title="01 / Penalty shootout"

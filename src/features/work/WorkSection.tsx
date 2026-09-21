@@ -9,8 +9,8 @@ export const WorkSection = () => {
   return (
     <Section
       id="work"
-      title="Selected projects"
-      label={`Selected projects (${String(projects.length).padStart(2, '0')})`}
+      title="Projects"
+      count={projects.length}
       aside={
         <a href={links.repositories} target="_blank" rel="noreferrer noopener">
           All repos on GitHub →

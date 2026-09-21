@@ -1,29 +1,65 @@
 .section {
-  padding-top: var(--space-10);
+  padding-top: var(--space-9);
 }
 
-.tight {
-  padding-top: var(--space-8);
+@media (width >= 48rem) {
+  .section {
+    padding-top: var(--space-10);
+  }
 }
 
-.label {
+.header {
+  margin-bottom: var(--space-7);
+}
+
+.headingRow {
   display: flex;
   flex-wrap: wrap;
   align-items: baseline;
   justify-content: space-between;
   gap: var(--space-4);
-  margin-bottom: var(--space-8);
+}
+
+.title {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--display-section);
+  line-height: 0.9;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.count {
+  margin-left: var(--space-2);
   font-family: var(--font-mono);
   font-size: var(--text-label);
-  letter-spacing: var(--tracking-label);
+  line-height: 1.5;
+  letter-spacing: 0;
+  vertical-align: top;
+  color: var(--color-text-dim);
+}
+
+.aside a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--target-min);
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  font-weight: 500;
+  letter-spacing: var(--tracking-button);
   text-transform: uppercase;
-  color: var(--color-text-dim);
+  color: var(--color-text-soft);
+  transition: color var(--duration-fast);
 }
 
-.label a {
-  color: var(--color-text-dim);
+.aside a:hover {
+  color: var(--color-accent-text);
 }
 
-.label a:hover {
-  color: var(--color-accent);
+.description {
+  max-width: var(--max-measure);
+  margin-top: var(--space-4);
+  font-size: var(--text-sm);
+  line-height: 1.65;
+  color: var(--color-text-muted);
 }

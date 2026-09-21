@@ -24,7 +24,7 @@ export const NotesSection = () => {
   const { notes } = useProfile()
 
   return (
-    <Section id="notes" title="Notes" label="Technical notes — in progress">
+    <Section id="notes" title="Notes">
       <div className={styles.grid}>
         {notes.map((note, index) =>
           note.url ? (

@@ -6,7 +6,7 @@ export const StackSection = () => {
   const { skillGroups } = useProfile()
 
   return (
-    <Section id="stack" title="Stack" label="Tools — roughly by how much I use them">
+    <Section id="stack" title="Stack">
       <div className={styles.grid}>
         {skillGroups.map((group, index) => (
           <Reveal key={group.id} delay={index * 80}>
