@@ -25,6 +25,3 @@ export const useMediaQuery = (query: string): boolean =>
 
 export const usePrefersReducedMotion = (): boolean =>
   useMediaQuery('(prefers-reduced-motion: reduce)')
-
-/** True for mouse/trackpad pointers — false on touch, where a fake cursor is nonsense. */
-export const useFinePointer = (): boolean => useMediaQuery('(pointer: fine)')

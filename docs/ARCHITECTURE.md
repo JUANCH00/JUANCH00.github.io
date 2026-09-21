@@ -30,14 +30,14 @@ Break the rule and CI fails — the diagram above cannot silently go stale.
 
 ## What lives where
 
-| Layer              | Path                 | Contains                                                                                                                                                                    | May import                   |
-| ------------------ | -------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
-| **Domain**         | `src/domain`         | Types and pure rules: the profile model, the penalty scoring rules, the cluster state machine. No React, no DOM, no `window`.                                               | nothing                      |
-| **Application**    | `src/application`    | The React bindings: context provider, `useProfile`, `usePenaltyGame`, `useClusterSimulation`. Owns timers and effects; delegates every decision to the domain.              | domain                       |
-| **Infrastructure** | `src/infrastructure` | Adapters to the outside world: the profile content and the `StaticProfileRepository` that serves it, plus the one place that reads `import.meta.env`.                       | domain                       |
-| **UI**             | `src/ui`             | The design system: tokens, primitives (`Section`, `Reveal`, `Marquee`, `TagList`, `SkipLink`, `VisuallyHidden`), generic hooks, the pointer halo. Knows nothing about Juan. | nothing                      |
-| **Features**       | `src/features`       | One folder per page section, each owning its markup, styles and section-specific logic.                                                                                     | domain, application, ui, app |
-| **App**            | `src/app`            | Composition root, section map, error boundary.                                                                                                                              | everything                   |
+| Layer              | Path                 | Contains                                                                                                                                                       | May import                   |
+| ------------------ | -------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------- |
+| **Domain**         | `src/domain`         | Types and pure rules: the profile model, the penalty scoring rules, the cluster state machine. No React, no DOM, no `window`.                                  | nothing                      |
+| **Application**    | `src/application`    | The React bindings: context provider, `useProfile`, `usePenaltyGame`, `useClusterSimulation`. Owns timers and effects; delegates every decision to the domain. | domain                       |
+| **Infrastructure** | `src/infrastructure` | Adapters to the outside world: the profile content and the `StaticProfileRepository` that serves it, plus the one place that reads `import.meta.env`.          | domain                       |
+| **UI**             | `src/ui`             | The design system: tokens, primitives (`Section`, `Reveal`, `Marquee`, `TagList`, `SkipLink`, `VisuallyHidden`), generic hooks. Knows nothing about Juan.      | nothing                      |
+| **Features**       | `src/features`       | One folder per page section, each owning its markup, styles and section-specific logic.                                                                        | domain, application, ui, app |
+| **App**            | `src/app`            | Composition root, section map, error boundary.                                                                                                                 | everything                   |
 
 ## Decisions worth knowing
 
@@ -77,8 +77,7 @@ never hard-code values, so the whole site can be re-themed from one screen.
 - Every goal cell is a `<button>` with a spoken label ("shoot top left"), and
   outcomes are announced through `role="status"`.
 - `prefers-reduced-motion` is honoured in one place (the token file) and by the
-  reveal hook, the marquee and the cluster animation; the pointer halo is not
-  rendered at all for reduced motion or touch pointers.
+  reveal hook, the marquee and the cluster animation.
 - An unpublished note renders as an `<article>`, never as a link to nowhere.
 
 ## Testing

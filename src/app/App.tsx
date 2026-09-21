@@ -1,6 +1,5 @@
 import type { ProfileRepository } from '@domain/profile'
 import { ProfileProvider } from '@application/profile'
-import { PointerHalo } from '@ui/effects/PointerHalo'
 import { SkipLink } from '@ui/primitives'
 import { NavBar } from '@features/navigation/NavBar'
 import { Hero } from '@features/hero/Hero'
@@ -25,7 +24,6 @@ import styles from './App.module.css'
 export const App = ({ repository }: { readonly repository: ProfileRepository }) => (
   <ProfileProvider repository={repository}>
     <SkipLink targetId={MAIN_CONTENT_ID} />
-    <PointerHalo />
     <NavBar />
     <main className={styles.main}>
       <Hero />
