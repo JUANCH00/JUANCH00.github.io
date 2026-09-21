@@ -14,14 +14,18 @@ export const ProjectRow = ({ project }: { readonly project: Project }) => (
     href={project.repositoryUrl}
     target="_blank"
     rel="noreferrer noopener"
-    aria-label={`${project.name} — ${project.metric}. Open the repository on GitHub.`}
+    aria-label={`${project.name}, ${project.metric}. Open the repository on GitHub.`}
   >
-    <div className={styles.head}>
-      <h3 className={styles.name}>{project.name}</h3>
-      <span className={styles.metric}>{project.metric}</span>
-      <span className={styles.context}>{project.context}</span>
+    {/* The inner block is what moves on hover: a transform, never padding,
+        so the browser composites instead of re-running layout every frame. */}
+    <div className={styles.inner}>
+      <div className={styles.head}>
+        <h3 className={styles.name}>{project.name}</h3>
+        <span className={styles.metric}>{project.metric}</span>
+        <span className={styles.context}>{project.context}</span>
+      </div>
+      <p className={styles.summary}>{project.summary}</p>
+      <TagList items={project.tags} label={`${project.name} stack`} />
     </div>
-    <p className={styles.summary}>{project.summary}</p>
-    <TagList items={project.tags} label={`${project.name} stack`} />
   </a>
 )
