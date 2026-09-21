@@ -3,43 +3,45 @@ import { useProfile } from '@application/profile'
 import { Reveal, Section } from '@ui/primitives'
 import styles from './NotesSection.module.css'
 
-const NoteBody = ({ note, index }: { readonly note: Note; readonly index: number }) => (
+const NoteContent = ({ note, published }: { readonly note: Note; readonly published: boolean }) => (
   <>
-    <span className={styles.category}>
-      {String(index + 1).padStart(2, '0')} / {note.category}
-    </span>
+    <span className={styles.category}>{note.category}</span>
     <h3 className={styles.title}>{note.title}</h3>
-    {note.status === 'writing' && (
-      <span className={styles.status}>Writing — not published yet</span>
-    )}
+    <span className={styles.status}>{published ? 'Read →' : 'In progress'}</span>
   </>
 )
 
 /**
- * A note only becomes a link once it has somewhere to go. An unpublished note
- * renders as an `article`, not an `<a href="#">` that lies to the visitor and
- * traps a keyboard user on a link that does nothing.
+ * Notes are a compact list, not a grid of identical cards promising content
+ * that does not exist yet. A note only becomes a link once it has somewhere to
+ * go: an unpublished one renders as an `article`, never as an `<a href="#">`
+ * that lies to the visitor and traps a keyboard user on a dead link.
  */
 export const NotesSection = () => {
   const { notes } = useProfile()
 
   return (
     <Section id="notes" title="Notes">
-      <div className={styles.grid}>
-        {notes.map((note, index) =>
-          note.url ? (
-            <Reveal key={note.id} delay={index * 80}>
-              <a className={styles.note} href={note.url} target="_blank" rel="noreferrer noopener">
-                <NoteBody note={note} index={index} />
+      <ul className={styles.list}>
+        {notes.map((note, index) => (
+          <Reveal as="li" key={note.id} delay={index * 80}>
+            {note.url ? (
+              <a
+                className={`${styles.note} ${styles.published}`}
+                href={note.url}
+                target="_blank"
+                rel="noreferrer noopener"
+              >
+                <NoteContent note={note} published />
               </a>
-            </Reveal>
-          ) : (
-            <Reveal as="article" key={note.id} delay={index * 80} className={styles.note}>
-              <NoteBody note={note} index={index} />
-            </Reveal>
-          ),
-        )}
-      </div>
+            ) : (
+              <article className={styles.note}>
+                <NoteContent note={note} published={false} />
+              </article>
+            )}
+          </Reveal>
+        ))}
+      </ul>
     </Section>
   )
 }
