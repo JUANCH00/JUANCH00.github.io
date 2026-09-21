@@ -67,7 +67,7 @@
 
 .cell {
   margin: 3px;
-  border: 1px dashed var(--color-line-focus);
+  border: 1px dashed var(--color-border-control);
   background: none;
   cursor: pointer;
   transition:
@@ -93,7 +93,7 @@
   gap: var(--space-3);
   margin-top: var(--space-4);
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
 }
 
 .score {

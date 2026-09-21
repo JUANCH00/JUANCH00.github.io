@@ -24,7 +24,7 @@
 
 .period {
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   letter-spacing: 0.06em;
   text-transform: uppercase;
   color: var(--color-text-dim);
@@ -33,7 +33,7 @@
 .location {
   display: block;
   margin-top: var(--space-1);
-  color: var(--color-text-faint);
+  color: var(--color-text-dim);
 }
 
 .org {
@@ -57,7 +57,7 @@
   display: grid;
   gap: var(--space-3);
   max-width: var(--max-measure);
-  font-size: 0.90625rem;
+  font-size: var(--text-sm);
   line-height: 1.65;
   color: var(--color-text-muted);
 }

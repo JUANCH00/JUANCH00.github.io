@@ -3,10 +3,10 @@
 }
 
 .labFallback {
-  margin: var(--space-8) var(--page-gutter);
+  margin-top: var(--space-8);
   padding: var(--space-6);
   border: 1px solid var(--color-line);
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   color: var(--color-text-dim);
 }

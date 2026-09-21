@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 import { splitHighlight } from '@domain/profile'
 import { useProfile } from '@application/profile'
-import { Marquee } from '@ui/primitives'
+import { Container, Marquee } from '@ui/primitives'
 import { MAIN_CONTENT_ID } from '@app/navigation'
 import styles from './Hero.module.css'
 
@@ -12,7 +12,12 @@ export const Hero = () => {
 
   return (
     <>
-      <section id={MAIN_CONTENT_ID} className={styles.hero} aria-labelledby="hero-name">
+      <Container
+        as="section"
+        id={MAIN_CONTENT_ID}
+        className={styles.hero}
+        aria-labelledby="hero-name"
+      >
         <p className={styles.meta}>
           <span>Systems Engineering — UPTC</span>
           <span>Machine learning / backend</span>
@@ -49,9 +54,11 @@ export const Hero = () => {
             </a>
           </div>
         </div>
-      </section>
+      </Container>
 
-      <Marquee items={stackTicker} label="Stack" />
+      <Container>
+        <Marquee items={stackTicker} label="Stack" />
+      </Container>
     </>
   )
 }

@@ -1,5 +1,5 @@
 .section {
-  padding: var(--space-10) var(--page-gutter) 0;
+  padding-top: var(--space-10);
 }
 
 .tight {
@@ -14,7 +14,7 @@
   gap: var(--space-4);
   margin-bottom: var(--space-8);
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-dim);

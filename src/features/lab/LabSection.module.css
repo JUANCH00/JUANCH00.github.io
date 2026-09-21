@@ -26,7 +26,7 @@
 
 .badge {
   font-family: var(--font-mono);
-  font-size: 0.65625rem;
+  font-size: var(--text-label);
   text-transform: uppercase;
   color: var(--color-accent);
 }

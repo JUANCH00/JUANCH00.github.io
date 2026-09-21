@@ -1,5 +1,5 @@
 .contact {
-  padding: 0 var(--page-gutter) var(--space-7);
+  padding-bottom: var(--space-7);
 }
 
 .inner {
@@ -31,7 +31,7 @@
 
 .label {
   font-family: var(--font-mono);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   letter-spacing: var(--tracking-label);
   text-transform: uppercase;
   color: var(--color-text-dim);
@@ -72,6 +72,6 @@
   display: block;
   margin-top: var(--space-1);
   font-family: var(--font-mono);
-  font-size: var(--text-micro);
+  font-size: var(--text-label);
   color: var(--color-text-dim);
 }

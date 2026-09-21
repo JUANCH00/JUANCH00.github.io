@@ -6,7 +6,7 @@
   padding: 0;
   list-style: none;
   font-family: var(--font-mono);
-  font-size: 0.65625rem;
+  font-size: var(--text-label);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   color: var(--color-text-dim);

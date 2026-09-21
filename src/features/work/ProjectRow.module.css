@@ -33,7 +33,7 @@
 
 .metric {
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   text-transform: uppercase;
   color: var(--color-accent);
 }
@@ -41,14 +41,14 @@
 .context {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   color: var(--color-text-dim);
 }
 
 .summary {
   margin-top: var(--space-3);
   max-width: var(--max-measure);
-  font-size: 0.90625rem;
+  font-size: var(--text-sm);
   line-height: 1.65;
   color: var(--color-text-muted);
 }

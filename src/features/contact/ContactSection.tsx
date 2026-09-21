@@ -1,5 +1,5 @@
 import { useProfile } from '@application/profile'
-import { Reveal } from '@ui/primitives'
+import { Container, Reveal } from '@ui/primitives'
 import { useCopyToClipboard } from '@ui/hooks/useCopyToClipboard'
 import styles from './ContactSection.module.css'
 
@@ -27,7 +27,12 @@ export const ContactSection = () => {
   const { contactChannels } = useProfile()
 
   return (
-    <section id="contact" className={styles.contact} aria-labelledby="contact-heading">
+    <Container
+      as="section"
+      id="contact"
+      className={styles.contact}
+      aria-labelledby="contact-heading"
+    >
       <div className={styles.inner}>
         <Reveal>
           <h2 id="contact-heading" className={styles.headline}>
@@ -63,6 +68,6 @@ export const ContactSection = () => {
           </div>
         </Reveal>
       </div>
-    </section>
+    </Container>
   )
 }

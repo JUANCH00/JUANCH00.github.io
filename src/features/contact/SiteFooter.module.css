@@ -4,16 +4,16 @@
   justify-content: space-between;
   gap: var(--space-3);
   margin: var(--space-9) 0 0;
-  padding: 0 var(--page-gutter) var(--space-6);
+  padding-bottom: var(--space-6);
   font-family: var(--font-mono);
-  font-size: var(--text-micro);
-  letter-spacing: var(--tracking-nav);
+  font-size: var(--text-label);
+  letter-spacing: var(--tracking-button);
   text-transform: uppercase;
-  color: var(--color-text-faint);
+  color: var(--color-text-dim);
 }
 
 .footer a {
-  color: var(--color-text-faint);
+  color: var(--color-text-dim);
 }
 
 .footer a:hover {

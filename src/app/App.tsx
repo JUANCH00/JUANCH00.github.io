@@ -1,6 +1,6 @@
 import type { ProfileRepository } from '@domain/profile'
 import { ProfileProvider } from '@application/profile'
-import { SkipLink } from '@ui/primitives'
+import { Container, SkipLink } from '@ui/primitives'
 import { NavBar } from '@features/navigation/NavBar'
 import { Hero } from '@features/hero/Hero'
 import { WorkSection } from '@features/work/WorkSection'
@@ -31,10 +31,12 @@ export const App = ({ repository }: { readonly repository: ProfileRepository }) 
       <ExperienceSection />
       <ErrorBoundary
         fallback={
-          <p className={styles.labFallback}>
-            The interactive lab could not start in this browser. Everything it demonstrates is
-            described in the projects above.
-          </p>
+          <Container>
+            <p className={styles.labFallback}>
+              The interactive lab could not start in this browser. Everything it demonstrates is
+              described in the projects above.
+            </p>
+          </Container>
         }
       >
         <LabSection />

@@ -1,5 +1,5 @@
 .hero {
-  padding: 7.5rem var(--page-gutter) 0;
+  padding-top: 7.5rem;
 }
 
 .meta {
@@ -11,7 +11,7 @@
   padding-bottom: var(--space-5);
   border-bottom: 1px solid var(--color-line);
   font-family: var(--font-mono);
-  font-size: var(--text-mono);
+  font-size: var(--text-label);
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--color-text-dim);
@@ -85,11 +85,11 @@
 
 .action {
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: var(--tracking-nav);
+  font-size: var(--text-button);
+  letter-spacing: var(--tracking-button);
   text-transform: uppercase;
   padding: var(--space-4) var(--space-5);
-  border: 1px solid var(--color-line-focus);
+  border: 1px solid var(--color-border-control);
   color: var(--color-text);
   transition:
     background var(--duration-fast) ease,
@@ -104,12 +104,12 @@
 .primary {
   background: var(--color-accent);
   border-color: var(--color-accent);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
   font-weight: 500;
 }
 
 .primary:hover {
   background: var(--color-accent-hover);
   border-color: var(--color-accent-hover);
-  color: var(--color-bg);
+  color: var(--color-on-accent);
 }

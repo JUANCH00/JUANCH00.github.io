@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react'
+import { Container } from './Container'
 import styles from './Section.module.css'
 
 interface SectionProps {
@@ -17,7 +18,8 @@ interface SectionProps {
  * guarantees the two never drift apart.
  */
 export const Section = ({ id, title, label, aside, tight, children }: SectionProps) => (
-  <section
+  <Container
+    as="section"
     id={id}
     aria-labelledby={`${id}-heading`}
     className={`${styles.section}${tight ? ` ${styles.tight}` : ''}`}
@@ -27,5 +29,5 @@ export const Section = ({ id, title, label, aside, tight, children }: SectionPro
       {aside}
     </h2>
     {children}
-  </section>
+  </Container>
 )

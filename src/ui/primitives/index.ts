@@ -1,3 +1,4 @@
+export { Container } from './Container'
 export { Marquee } from './Marquee'
 export { Reveal } from './Reveal'
 export { Section } from './Section'

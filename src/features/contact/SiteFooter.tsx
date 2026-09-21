@@ -1,5 +1,6 @@
 import { useProfile } from '@application/profile'
 import { useLocalTime } from '@ui/hooks/useLocalTime'
+import { Container } from '@ui/primitives'
 import styles from './SiteFooter.module.css'
 
 export const SiteFooter = () => {
@@ -7,7 +8,7 @@ export const SiteFooter = () => {
   const time = useLocalTime(identity.timeZone)
 
   return (
-    <footer className={styles.footer}>
+    <Container as="footer" className={styles.footer}>
       <span>
         {identity.location} — <time>{time}</time>
       </span>
@@ -17,6 +18,6 @@ export const SiteFooter = () => {
           Source
         </a>
       </span>
-    </footer>
+    </Container>
   )
 }
