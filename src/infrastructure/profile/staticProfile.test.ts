@@ -57,6 +57,20 @@ describe('the published profile', () => {
     expect(words.length).toBeLessThanOrEqual(20)
   })
 
+  it('uses no em or en dash anywhere in the content', () => {
+    // Voice rule: ranges take a hyphen, separators a comma or a line break.
+    const strings: string[] = []
+    const collect = (value: unknown): void => {
+      if (typeof value === 'string') strings.push(value)
+      else if (Array.isArray(value)) value.forEach(collect)
+      else if (value && typeof value === 'object') Object.values(value).forEach(collect)
+    }
+    collect(profile)
+
+    expect(strings.length).toBeGreaterThan(50)
+    expect(strings.filter((text) => /[\u2013\u2014]/.test(text))).toEqual([])
+  })
+
   it('sets the name on two lines', () => {
     expect(profile.identity.displayLines).toHaveLength(2)
   })

@@ -59,7 +59,7 @@ describe('the portfolio page', () => {
 
     await user.click(node)
     expect(node).toHaveAttribute('aria-pressed', 'true')
-    expect(screen.getByText(/n2 down — balancer rerouted, 2\/3 serving/)).toBeInTheDocument()
+    expect(screen.getByText('> n2 down: balancer rerouted, 2/3 serving')).toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: /Restore all/i }))
     expect(screen.getByRole('button', { name: 'n2' })).toHaveAttribute('aria-pressed', 'false')
@@ -72,7 +72,12 @@ describe('the portfolio page', () => {
     const goal = screen.getByRole('group', { name: /Goal/ })
     await user.click(within(goal).getByRole('button', { name: /Shoot top left/ }))
 
-    expect(await screen.findByText(/saved|goal —/)).toBeInTheDocument()
+    expect(
+      await screen.findByText(/^(Saved, the model called it|Goal, outside the model)$/),
+    ).toBeInTheDocument()
+    expect(screen.getByText(/^Goals \d, saves \d$/)).toHaveTextContent(
+      /Goals (0, saves 1|1, saves 0)/,
+    )
   })
 
   it('offers the email as a link and copies it on request', async () => {

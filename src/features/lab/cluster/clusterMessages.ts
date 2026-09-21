@@ -11,14 +11,14 @@ export const clusterEventText = (event: ClusterEvent): string => {
 
   switch (event.kind) {
     case 'cluster-healthy':
-      return `> cluster healthy — ${event.healthyCount}/${event.totalCount} replicas`
+      return `> cluster healthy: ${event.healthyCount}/${event.totalCount} replicas`
     case 'node-up':
-      return `> ${node} back online — resyncing from the replicaset`
+      return `> ${node} back online: resyncing from the replicaset`
     case 'node-down':
-      return `> ${node} down — balancer rerouted, ${event.healthyCount}/${event.totalCount} serving`
+      return `> ${node} down: balancer rerouted, ${event.healthyCount}/${event.totalCount} serving`
     case 'total-outage':
-      return '> all replicas down — 503 from the balancer'
+      return '> all replicas down: 503 from the balancer'
     case 'cluster-restored':
-      return `> cluster restored — ${event.healthyCount}/${event.totalCount} replicas`
+      return `> cluster restored: ${event.healthyCount}/${event.totalCount} replicas`
   }
 }

@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 import { GOAL_CELL_COUNT, type GoalCell } from '@domain/lab'
-import { usePenaltyGame, type PenaltyStatus } from '@application/lab'
+import { usePenaltyGame } from '@application/lab'
 import { VisuallyHidden } from '@ui/primitives'
 import {
   BALL_REST,
@@ -11,14 +11,8 @@ import {
   keeperDive,
   type CellPosition,
 } from './goalGeometry'
+import { penaltyStatusText, scoreText } from './penaltyMessages'
 import styles from './PenaltyLab.module.css'
-
-const MESSAGES: Record<PenaltyStatus, string> = {
-  ready: 'pick a corner',
-  guessing: 'the model is guessing…',
-  saved: 'saved — the model called it',
-  scored: 'goal — outside the model',
-}
 
 /**
  * Positions travel as custom properties into a `translate()` on a pitch-sized
@@ -68,7 +62,7 @@ export const PenaltyLab = ({ accuracy }: { readonly accuracy: number }) => {
           <div className={styles.ball} />
         </div>
 
-        <div className={styles.grid} role="group" aria-label="Goal — pick a corner to shoot">
+        <div className={styles.grid} role="group" aria-label="Goal: pick a corner to shoot">
           {cells.map((cell) => (
             <button
               key={cell}
@@ -85,10 +79,8 @@ export const PenaltyLab = ({ accuracy }: { readonly accuracy: number }) => {
 
       <p className={styles.status}>
         {/* The outcome is announced, not just animated. */}
-        <span role="status">{MESSAGES[status]}</span>
-        <span className={styles.score}>
-          Goals {state.goals} · Saves {state.saves}
-        </span>
+        <span role="status">{penaltyStatusText(status)}</span>
+        <span className={styles.score}>{scoreText(state)}</span>
       </p>
     </>
   )

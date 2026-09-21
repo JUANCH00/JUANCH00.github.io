@@ -42,7 +42,7 @@ export const staticProfile: Profile = {
       id: 'goalpredict',
       name: 'GoalPredict',
       metric: '54% validation accuracy',
-      context: 'Personal project · 2026',
+      context: 'Personal project, 2026',
       summary:
         'Freemium web app that predicts 2026 World Cup matches. XGBoost classifier trained on four historical football datasets, served through a FastAPI REST backend to a React frontend and fully containerized with Docker.',
       tags: ['Python', 'XGBoost', 'FastAPI', 'React', 'Docker'],
@@ -52,7 +52,7 @@ export const staticProfile: Profile = {
       id: 'goalquest',
       name: 'GoalQuest',
       metric: 'University capstone',
-      context: 'UPTC · 2025 — present',
+      context: 'UPTC, 2025 - present',
       summary:
         'Gamified goal-management platform on a microservices architecture. I built the Python microservice exposing REST APIs backed by PostgreSQL, plus the React Native (Expo) interface, in two-week Agile sprints on a feature-branch workflow.',
       tags: ['Microservices', 'React Native', 'PostgreSQL', 'Scrum'],
@@ -62,7 +62,7 @@ export const staticProfile: Profile = {
       id: 'temuviator',
       name: 'Temuviator',
       metric: '3 nodes · fault tolerant',
-      context: 'Distributed systems · 2025',
+      context: 'Distributed systems, 2025',
       summary:
         'Distributed system with a MongoDB ReplicaSet, three backend nodes over WebSockets, Redis for caching and messaging and a load balancer in front: horizontal scaling and real-time communication that survives a node going down.',
       tags: ['Node.js', 'MongoDB', 'Redis', 'WebSockets'],
@@ -74,9 +74,9 @@ export const staticProfile: Profile = {
     {
       id: 'outlier',
       organization: 'Outlier AI',
-      role: 'AI Trainer — LLM evaluation & prompt engineering',
+      role: 'AI Trainer, LLM evaluation and prompt engineering',
       location: 'Remote',
-      period: 'Apr 2025 — Aug 2026',
+      period: 'Apr 2025 - Aug 2026',
       highlights: [
         'Improved LLM response quality across 500+ evaluations by designing and A/B-testing structured prompts, documenting recurring error patterns to guide RLHF iterations.',
         'Ranked and corrected 1,000+ model completions feeding human-feedback datasets, contributing to measurable gains in model alignment and factual consistency.',
@@ -87,10 +87,10 @@ export const staticProfile: Profile = {
       organization: 'Cultural Exchange Program (Work & Travel)',
       role: 'International team member',
       location: 'United States',
-      period: 'Jun—Aug 2024 · Jun—Aug 2026',
+      period: 'Jun-Aug 2024, Jun-Aug 2026',
       highlights: [
         'Selected twice for a competitive international work program, returning in 2026 after a strong first season.',
-        'Worked in a high-pressure, English-speaking environment alongside a team of 7+ nationalities — the same English I use today in technical documentation and async collaboration.',
+        'Worked in a high-pressure, English-speaking environment alongside a team of 7+ nationalities, the same English I use today in technical documentation and async collaboration.',
       ],
     },
   ],
@@ -159,7 +159,7 @@ export const staticProfile: Profile = {
       id: 'availability',
       kind: 'plain',
       label: 'Availability',
-      links: [{ id: 'availability-text', text: 'January 2027 · remote or hybrid' }],
+      links: [{ id: 'availability-text', text: 'January 2027, remote or hybrid' }],
     },
   ],
 
