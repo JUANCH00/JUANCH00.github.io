@@ -28,7 +28,6 @@ export const App = ({ repository }: { readonly repository: ProfileRepository }) 
     <main className={styles.main}>
       <Hero />
       <WorkSection />
-      <ExperienceSection />
       <ErrorBoundary
         fallback={
           <Container>
@@ -41,6 +40,7 @@ export const App = ({ repository }: { readonly repository: ProfileRepository }) 
       >
         <LabSection />
       </ErrorBoundary>
+      <ExperienceSection />
       <StackSection />
       <NotesSection />
       <ContactSection />

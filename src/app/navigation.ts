@@ -6,9 +6,11 @@
  * scrolls nowhere.
  */
 export const SECTIONS = [
-  { id: 'work', label: 'Work' },
-  { id: 'experience', label: 'Experience' },
+  // The id stays `work` so existing links to /#work keep landing.
+  { id: 'work', label: 'Projects' },
+  // The Lab proves what the projects claim, so it comes straight after them.
   { id: 'lab', label: 'Lab' },
+  { id: 'experience', label: 'Experience' },
   { id: 'stack', label: 'Stack' },
   { id: 'notes', label: 'Notes' },
   { id: 'contact', label: 'Contact' },

@@ -40,6 +40,15 @@ describe('the portfolio page', () => {
     }
   })
 
+  it('lists the sections in the nav in the order they appear on the page', () => {
+    const { container } = renderApp()
+    const onPage = [...container.querySelectorAll('main section[id]')]
+      .map((section) => section.id)
+      .filter((id) => SECTIONS.some((section) => section.id === id))
+
+    expect(onPage).toEqual(SECTIONS.map((section) => section.id))
+  })
+
   it('links a published note but never a draft one', () => {
     renderApp()
     expect(screen.getByRole('link', { name: /A published note/ })).toHaveAttribute(
